@@ -46,7 +46,7 @@ namespace Cedar.HttpCommandHandling
 
             await func();
 
-            return new HttpResponseMessage(HttpStatusCode.Accepted);
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         private IParsedMediaType ParseMediaType()
