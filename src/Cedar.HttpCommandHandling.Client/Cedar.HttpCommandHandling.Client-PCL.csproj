@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="packages.Cedar.CommandHandling.Client-PCL.config" />
+    <None Include="packages.Cedar.HttpCommandHandling.Client-PCL.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Packages\LibLog.3.0\LibLog.cs" />
