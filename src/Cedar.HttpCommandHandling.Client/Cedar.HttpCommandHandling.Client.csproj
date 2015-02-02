@@ -56,8 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Cedar.HttpCommandHandling.nuspec" />
-    <None Include="packages.Cedar.HttpCommandHandling.Client.config" />
-    <None Include="packages.config" />
+    <None Include="packages.Cedar.CommandHandling.Client.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
