@@ -80,9 +80,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cedar.HttpCommandHandling.Client\Cedar.HttpCommandHandling.Client.csproj">
-      <Project>{772D0367-FF5A-430C-BC63-A40F5E48F247}</Project>
-      <Name>Cedar.HttpCommandHandling.Client</Name>
+    <ProjectReference Include="..\Cedar.HttpCommandHandling.Client\Cedar.HttpCommandHandling.Client-PCL.csproj">
+      <Project>{b3591387-2ebc-4d6f-a0c0-bea555dfd192}</Project>
+      <Name>Cedar.HttpCommandHandling.Client-PCL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cedar.HttpCommandHandling\Cedar.HttpCommandHandling.csproj">
       <Project>{DCFCD369-4580-42D4-8F26-A071B9D17680}</Project>
