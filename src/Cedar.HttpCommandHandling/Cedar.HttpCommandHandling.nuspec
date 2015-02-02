@@ -16,12 +16,12 @@
         <frameworkAssemblies />
         <releaseNotes/>
         <dependencies>
-            <dependency id="Cedar.HttpCommandHandling.Client" version="[0.7,0.8)"/>
+            <dependency id="Cedar.HttpCommandHandling.Client" version="[0.8,0.9)"/>
         </dependencies>
     </metadata>
     <files>
-        <file src="..\..\build\merged\Cedar.HttpCommandHandling.dll" target="lib\net45" />
-        <file src="..\..\build\merged\Cedar.HttpCommandHandling.pdb" target="lib\net45" />
+        <file src="..\..\build\merged\Cedar.HttpCommandHandling.dll" target="lib\Net45" />
+        <file src="..\..\build\merged\Cedar.HttpCommandHandling.pdb" target="lib\Net45" />
         <file src="bin\Release\Cedar.HttpCommandHandling.xml" target="lib\net45" />
     </files>
 </package>
