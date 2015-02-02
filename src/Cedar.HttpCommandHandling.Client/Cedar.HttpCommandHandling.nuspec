@@ -19,9 +19,9 @@
         <dependencies/>
     </metadata>
     <files>
-        <file src="bin\Release\Cedar.HttpCommandHandling.Client.dll" target="lib\Net45" />
+        <!--<file src="bin\Release\Cedar.HttpCommandHandling.Client.dll" target="lib\Net45" />
         <file src="bin\Release\Cedar.HttpCommandHandling.Client.pdb" target="lib\Net45" />
-        <file src="bin\Release\Cedar.HttpCommandHandling.Client.xml" target="lib\Net45" />
+        <file src="bin\Release\Cedar.HttpCommandHandling.Client.xml" target="lib\Net45" />-->
 
         <file src="bin\Release-PCL\Cedar.HttpCommandHandling.Client.dll" target="lib\Portable-Net45+Win8+WP8+WPA81" />
         <file src="bin\Release-PCL\Cedar.HttpCommandHandling.Client.pdb" target="lib\Portable-Net45+Win8+WP8+WPA81" />
