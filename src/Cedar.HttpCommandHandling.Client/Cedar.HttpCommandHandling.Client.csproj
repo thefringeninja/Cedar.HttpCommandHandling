@@ -44,7 +44,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="App_Packages\LibLog.2.0\LibLog.cs" />
+    <Compile Include="App_Packages\LibLog.3.0\LibLog.cs" />
     <Compile Include="HttpProblemDetailsException.cs" />
     <Compile Include="HttpProblemDetails.cs" />
     <Compile Include="CommandClient.cs" />
