@@ -18,7 +18,7 @@
         static CommandClient()
         {
             var type = typeof(CommandClient);
-            var version = type.Assembly.GetName().Version;
+            var version = type.GetAssembly().GetName().Version;
             UserAgent = new ProductInfoHeaderValue(type.FullName, version.Major + "." + version.Minor);
         }
 

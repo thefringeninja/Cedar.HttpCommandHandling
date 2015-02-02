@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cedar.HttpCommandHandling.Client", "Cedar.HttpCommandHandling.Client\Cedar.HttpCommandHandling.Client.csproj", "{772D0367-FF5A-430C-BC63-A40F5E48F247}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cedar.HttpCommandHandling.Client-PCL", "Cedar.HttpCommandHandling.Client\Cedar.HttpCommandHandling.Client-PCL.csproj", "{B3591387-2EBC-4D6F-A0C0-BEA555DFD192}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{772D0367-FF5A-430C-BC63-A40F5E48F247}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{772D0367-FF5A-430C-BC63-A40F5E48F247}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{772D0367-FF5A-430C-BC63-A40F5E48F247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3591387-2EBC-4D6F-A0C0-BEA555DFD192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3591387-2EBC-4D6F-A0C0-BEA555DFD192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3591387-2EBC-4D6F-A0C0-BEA555DFD192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3591387-2EBC-4D6F-A0C0-BEA555DFD192}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
