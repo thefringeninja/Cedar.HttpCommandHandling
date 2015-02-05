@@ -22,7 +22,7 @@
                     app.UseStaticFiles(new StaticFileOptions
                     {
                         RequestPath = new PathString(""),
-                        FileSystem = new PhysicalFileSystem(@"..\..\wwwroot")
+                        FileSystem = new PhysicalFileSystem(@"wwwroot")
                     });
                     app.Map("/commands", commandsApp => commandsApp.Use(commandHandlingMiddleware));
                 }))

@@ -78,11 +78,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="wwwroot\AngularExample.html" />
-    <Content Include="wwwroot\AngularExample.js" />
-    <Content Include="wwwroot\Index.html" />
-    <Content Include="wwwroot\jQueryExample.html" />
-    <Content Include="wwwroot\jQueryExample.js" />
+    <Content Include="wwwroot\AngularExample.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\AngularExample.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\jQueryExample.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\jQueryExample.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
