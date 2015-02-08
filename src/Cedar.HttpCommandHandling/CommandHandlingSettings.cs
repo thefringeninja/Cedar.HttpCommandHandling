@@ -1,7 +1,5 @@
 namespace Cedar.HttpCommandHandling
 {
-    using System;
-    using System.Collections.Generic;
     using Cedar.Annotations;
     using Cedar.HttpCommandHandling.TypeResolution;
     using CuttingEdge.Conditions;
@@ -18,20 +16,10 @@ namespace Cedar.HttpCommandHandling
         ///     <see cref="CommandTypeResolvers.FullNameWithUnderscoreVersionSuffix"/> as the command type resolver.
         /// </summary>
         /// <param name="handlerResolver">The handler resolver.</param>
-        public CommandHandlingSettings([NotNull] CommandHandlerResolver handlerResolver)
-            : this(handlerResolver, handlerResolver.KnownCommandTypes)
-        { } 
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="CommandHandlingSettings"/> class using
-        ///     <see cref="CommandTypeResolvers.FullNameWithUnderscoreVersionSuffix"/> as the command type resolver.
-        /// </summary>
-        /// <param name="handlerResolver">The handler resolver.</param>
-        /// <param name="knownCommandTypes">The known command types.</param>
-        public CommandHandlingSettings(
-            [NotNull] ICommandHandlerResolver handlerResolver,
-            [NotNull] IEnumerable<Type> knownCommandTypes) 
-            : this(handlerResolver, CommandTypeResolvers.FullNameWithUnderscoreVersionSuffix(knownCommandTypes))
+        public CommandHandlingSettings([NotNull] ICommandHandlerResolver handlerResolver)
+            : this(
+                handlerResolver,
+                CommandTypeResolvers.FullNameWithUnderscoreVersionSuffix(handlerResolver.KnownCommandTypes))
         { } 
 
         public CommandHandlingSettings(
