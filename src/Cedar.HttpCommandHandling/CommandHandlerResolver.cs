@@ -2,12 +2,11 @@ namespace Cedar.HttpCommandHandling
 {
     using System;
     using System.Collections.Generic;
-    using Cedar.HttpCommandHandling.TinyIoC;
 
     public class CommandHandlerResolver : ICommandHandlerResolver
     {
-        private readonly TinyIoCContainer _container = new TinyIoCContainer();
         private readonly HashSet<Type> _knownCommandTypes = new HashSet<Type>();
+        private readonly Dictionary<Type, object> _handlers = new Dictionary<Type, object>(); 
 
         public CommandHandlerResolver(params CommandHandlerModule[] commandHandlerModules)
         {
@@ -21,10 +20,7 @@ namespace Cedar.HttpCommandHandling
                             "Attempt to register multiple handlers for command type {0}"
                                 .FormatWith(handlerRegistration.MessageType));
                     }
-
-                    _container.Register(
-                        handlerRegistration.RegistrationType,
-                        handlerRegistration.HandlerInstance);
+                    _handlers[handlerRegistration.RegistrationType] = handlerRegistration.HandlerInstance;
                 }
             }
         }
@@ -36,7 +32,12 @@ namespace Cedar.HttpCommandHandling
 
         public Handler<CommandMessage<TCommand>> Resolve<TCommand>() where TCommand : class
         {
-            return _container.Resolve<Handler<CommandMessage<TCommand>>>();
+            object handler;
+            if(_handlers.TryGetValue(typeof(Handler<CommandMessage<TCommand>>), out handler))
+            {
+                return (Handler<CommandMessage<TCommand>>) handler;
+            }
+            return null;
         }
     }
 }
