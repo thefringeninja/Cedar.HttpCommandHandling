@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;TINYIOC_INTERNAL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Cedar.HttpCommandHandling.xml</DocumentationFile>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;TINYIOC_INTERNAL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Cedar.HttpCommandHandling.xml</DocumentationFile>
@@ -82,13 +82,13 @@
     <Compile Include="MidFuncExtensions.cs" />
     <Compile Include="Pipe.cs" />
     <Compile Include="HttpProblemDetailsExceptionFilterAttribute.cs" />
+    <Compile Include="TinyIoC.cs" />
     <Compile Include="TypeResolution\CommandTypeResolvers.cs" />
     <Compile Include="CommandHandlerRegistration.cs" />
     <Compile Include="ICommandHandlerResolver.cs" />
     <Compile Include="TypeResolution\IParsedMediaType.cs" />
     <Compile Include="TypeResolution\ITypeResolver.cs" />
     <Compile Include="ICommandHandlerBuilder.cs" />
-    <Compile Include="TinyIoC.cs" />
     <Compile Include="TaskExtensions.cs" />
     <Compile Include="CommandHandlingMiddleware.cs" />
     <Compile Include="CommandMessage.cs" />
