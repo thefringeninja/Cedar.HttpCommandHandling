@@ -7,8 +7,8 @@
     <ProjectGuid>{D7DD6F18-6509-4D53-A616-AF0C41E8B722}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cedar.HttpCommandHandling.Example.JavaScript</RootNamespace>
-    <AssemblyName>Cedar.HttpCommandHandling.Example.JavaScript</AssemblyName>
+    <RootNamespace>Cedar.HttpCommandHandling.TestHost</RootNamespace>
+    <AssemblyName>Cedar.HttpCommandHandling.TestHost</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

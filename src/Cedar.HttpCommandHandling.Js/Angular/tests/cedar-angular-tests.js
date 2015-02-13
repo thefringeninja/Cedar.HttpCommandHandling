@@ -8,7 +8,7 @@
         // common setup
         beforeEach(function() {
 
-            angular.module('testmodule', ['cedar.js'])
+            angular.module('testmodule', ['cedarjs'])
                 .config(function(commandApiProvider) {
                     _commandApiProvider = commandApiProvider;
                 });

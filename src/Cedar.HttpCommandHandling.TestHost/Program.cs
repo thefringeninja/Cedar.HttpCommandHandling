@@ -1,4 +1,4 @@
-﻿namespace Cedar.HttpCommandHandling.Example.JavaScript
+﻿namespace Cedar.HttpCommandHandling.TestHost
 {
     using System;
     using System.Diagnostics;
@@ -22,7 +22,12 @@
                     app.UseStaticFiles(new StaticFileOptions
                     {
                         RequestPath = new PathString(""),
-                        FileSystem = new PhysicalFileSystem(@"wwwroot")
+                        FileSystem = new PhysicalFileSystem(@"..\..\wwwroot")
+                    });
+                    app.UseStaticFiles(new StaticFileOptions
+                    {
+                        RequestPath = new PathString("/cedarjs"),
+                        FileSystem = new PhysicalFileSystem(@"..\..\..\Cedar.HttpCommandHandling.Js\Angular\src")
                     });
                     app.Map("/commands", commandsApp => commandsApp.Use(commandHandlingMiddleware));
                 }))

@@ -1,4 +1,4 @@
-﻿namespace Cedar.HttpCommandHandling.Example.JavaScript
+﻿namespace Cedar.HttpCommandHandling.TestHost
 {
     using System;
     using System.Net;

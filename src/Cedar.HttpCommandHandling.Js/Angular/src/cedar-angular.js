@@ -1,7 +1,6 @@
 'use strict';
 
-var cedarJs = angular.module("cedar.js", [])
-    
+var cedarJs = angular.module("cedarjs", [])
     .provider('commandApi', function() {
 
         var _http, _q, _rootScope, _options;
@@ -53,8 +52,8 @@ var cedarJs = angular.module("cedar.js", [])
 
                 _rootScope.$broadcast('commandSent', command);
             })
-            .error(function() {
-                deferred.reject();
+            .error(function(data) {
+                deferred.reject(data);
             });
         }
     });
