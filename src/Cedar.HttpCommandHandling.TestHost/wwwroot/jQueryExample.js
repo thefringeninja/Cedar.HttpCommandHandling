@@ -1,25 +1,34 @@
 ﻿$(function () {
     'use strict';
 
-    $('#btnAccepted').click(function () {
-        sendCommand('Cedar.HttpCommandHandling.Example.JavaScript.CommandThatIsAccepted', { value: 'Data' });
+    var commandApi = new cedarJs.CommandApi({
+        namespace: 'Cedar.HttpCommandHandling.TestHost'
+    });
+
+    $('#btnAccepted').click(function() {
+        sendCommand({
+            commandId: '90D552BE-9259-4081-BEE0-A972D0AFAC8C',
+            commandName: 'CommandThatIsAccepted',
+            value: 'Data'
+        });
     });
 
     $('#btnException').click(function () {
-        sendCommand('Cedar.HttpCommandHandling.Example.JavaScript.CommandThatThrowsProblemDetailsException', {});
+        sendCommand({
+            commandId: '90D552BE-9259-4081-BEE0-A972D0AFAC8C',
+            commandName: 'CommandThatThrowsProblemDetailsException'
+        });
     });
 
-    function sendCommand(commandType, commandData) {
-        $.ajax({
-            url: '/commands/90D552BE-9259-4081-BEE0-A972D0AFAC8C',
-            type: 'PUT',
-            contentType: 'application/vnd.' + commandType.toLowerCase() + '+json',
-            accepts: 'application/problem+json',
-            data: JSON.stringify(commandData)
-        }).then(function (e) {
+    function sendCommand(command) {
+
+        
+
+        commandApi.execute(command).then(function (e) {
             $('#result').text('Command Is Accepted');
         }, function (e) {
-            console.log($('#result').text(e.responseText));
+            $('#result').text('Command Is Not Accepted');
+            console.log(e.responseText);
         });
     }
 });

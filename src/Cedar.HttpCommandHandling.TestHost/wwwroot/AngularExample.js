@@ -36,6 +36,7 @@
                    $scope.result = 'Command Is Accepted';
                }, function (e) {
                    $scope.result = 'Command Is Not Accepted';
+                   console.log(e);
                });
         }
     });
