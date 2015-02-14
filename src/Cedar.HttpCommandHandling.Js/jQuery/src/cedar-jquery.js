@@ -17,13 +17,23 @@
             
             var prefix = _options.routePrefix || '';
 
-            return jQuery.ajax({
+            var deferred = new jQuery.Deferred();
+
+            jQuery.ajax({
                 url: prefix + 'commands/' + command.commandId,
                 type: 'PUT',
                 contentType: 'application/vnd.' + options.namespace + '.' + command.commandName + '+json',
                 accepts: 'application/problem+json',
-                data: JSON.stringify(command)
+                data: JSON.stringify(command),
+                error: function(data){
+                    deferred.reject(data);
+                },
+                success: function(data){
+                    deferred.resolve(data);
+                }
             });
+
+            return deferred.promise();
         }
     };
 
