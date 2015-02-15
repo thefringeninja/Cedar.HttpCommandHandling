@@ -1,16 +1,17 @@
 (function(cedarJs, jQuery, undefined){
 
     var _options;
-    
+    var _defaultOptions = {
+        routePrefix: ''
+    };
+
     var CommandApi = function(options){
         
         if(!(this instanceof CommandApi)){
             return new CommandApi(options);
         }
 
-        if(!options.namespace) throw new Error("No namespace defined in the options");
-        
-        _options = options;
+        _options = options || _defaultOptions;
 
 
         this.execute = function(command){
@@ -22,7 +23,7 @@
             jQuery.ajax({
                 url: prefix + 'commands/' + command.commandId,
                 type: 'PUT',
-                contentType: 'application/vnd.' + options.namespace + '.' + command.commandName + '+json',
+                contentType: 'application/vnd.' + command.commandName + '+json',
                 accepts: 'application/problem+json',
                 data: JSON.stringify(command),
                 error: function(data){

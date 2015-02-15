@@ -21,8 +21,6 @@
                 $q = _$q_;
                 $rootScope = _$rootScope_;
             });
-
-            _commandApiProvider.configure({ namespace: 'namespace' });
         });
 
         describe('When configured with a route prefix', function() {
@@ -51,7 +49,7 @@
                 
                 var expectedData = { "commandId": "1234", "commandName": "commandA", "domainVersion": "4" };
                 var expectedHeaders = {
-                    "content-type": 'application/vnd.namespace.commandA+json',
+                    "content-type": 'application/vnd.commandA+json',
                     "Accept": "application/problem+json"
                 };
 

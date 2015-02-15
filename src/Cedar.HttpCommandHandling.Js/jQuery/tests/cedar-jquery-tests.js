@@ -54,7 +54,7 @@
             it('should create a valid put request', function() {
                 var mockedRequest = $.mockjax.mockedAjaxCalls()[0];
                 expect(mockedRequest.url).toBe('commands/someid');
-                expect(mockedRequest.contentType).toBe('application/vnd.namespace.somename+json');
+                expect(mockedRequest.contentType).toBe('application/vnd.somename+json');
                 expect(mockedRequest.data.indexOf('"commandId":"someid"')).toBeGreaterThan(0);
                 expect(mockedRequest.data.indexOf('"value":"somevalue"')).toBeGreaterThan(0);
                 expect(mockedRequest.data.indexOf('"commandName":"somename"')).toBeGreaterThan(0);

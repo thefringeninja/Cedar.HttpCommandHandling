@@ -2,13 +2,14 @@
 
 var cedarJs = angular.module("cedarjs", [])
     .provider('commandApi', function() {
-
+        
+        var defaultOptions = {
+            routePrefix: ''
+        };
         var _http, _q, _rootScope, _options;
 
         return {
             configure: function(options) {
-                
-                if(!options.namespace) throw new Error("No namespace defined in the options");
                 
                 _options = options;
             },
@@ -16,6 +17,7 @@ var cedarJs = angular.module("cedarjs", [])
                 _q = $q;
                 _http = $http;
                 _rootScope = $rootScope;
+                _options = _options || defaultOptions;
 
                 function execute(command, deferred) {
 
@@ -39,10 +41,10 @@ var cedarJs = angular.module("cedarjs", [])
 
             _http.put(
                 prefix + 'commands/' + command.commandId,
+                
                 command, {
                     headers: {
-                        'content-type': 'application/vnd.' + _options.namespace + '.' +
-                            command.commandName + '+json',
+                        'content-type': 'application/vnd.' + command.commandName + '+json',
                         'Accept': 'application/problem+json'
                     }
                 })
