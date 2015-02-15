@@ -45,11 +45,15 @@
             var successHandler = jasmine.createSpy('success');
             
             beforeEach(function() {
-                var command = { commandId: '1234', commandName: 'commandA', domainVersion: '4' };
+                var command = { 
+                    commandId: '1234', 
+                    version: 'v1',
+                    commandName: 'commandA' 
+                };
                 
-                var expectedData = { "commandId": "1234", "commandName": "commandA", "domainVersion": "4" };
+                var expectedData = { "commandId": "1234", "commandName": "commandA", "version": "v1" };
                 var expectedHeaders = {
-                    "content-type": 'application/vnd.commandA+json',
+                    "content-type": 'application/vnd.commandA-v1+json',
                     "Accept": "application/problem+json"
                 };
 

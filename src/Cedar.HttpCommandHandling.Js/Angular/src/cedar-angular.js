@@ -38,13 +38,16 @@ var cedarJs = angular.module("cedarjs", [])
             _rootScope.$broadcast('commandSending', command);
             
              var prefix = _options.routePrefix || '';
+             var version = '';
+            if(command.version){
+                version = '-' + command.version;
+            }
 
             _http.put(
                 prefix + 'commands/' + command.commandId,
-                
                 command, {
                     headers: {
-                        'content-type': 'application/vnd.' + command.commandName + '+json',
+                        'content-type': 'application/vnd.' + command.commandName + version + '+json',
                         'Accept': 'application/problem+json'
                     }
                 })

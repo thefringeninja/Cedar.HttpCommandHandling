@@ -40,6 +40,7 @@
 
                 commandApi.execute({
                     commandId: 'someid',
+                    version: 'v1',
                     commandName: 'somename',
                     value: 'somevalue'
                 }).then(successHandler);
@@ -48,7 +49,7 @@
             it('should create a valid put request', function() {
                 var mockedRequest = $.mockjax.mockedAjaxCalls()[0];
                 expect(mockedRequest.url).toBe('test/commands/someid');
-                expect(mockedRequest.contentType).toBe('application/vnd.somename+json');
+                expect(mockedRequest.contentType).toBe('application/vnd.somename-v1+json');
                 expect(mockedRequest.data.indexOf('"commandId":"someid"')).toBeGreaterThan(0);
                 expect(mockedRequest.data.indexOf('"value":"somevalue"')).toBeGreaterThan(0);
                 expect(mockedRequest.data.indexOf('"commandName":"somename"')).toBeGreaterThan(0);

@@ -16,9 +16,13 @@
         this.execute = function(command){
             
             var prefix = _options.routePrefix || '';
-            
+            var version = '';
             if(prefix !== '' && !endsWith(prefix, '/')){
                 prefix = prefix + '/';
+            }
+            
+            if(command.version){
+                version = '-' + command.version;
             }
 
             var deferred = new jQuery.Deferred();
@@ -26,7 +30,7 @@
             jQuery.ajax({
                 url: prefix + 'commands/' + command.commandId,
                 type: 'PUT',
-                contentType: 'application/vnd.' + command.commandName + '+json',
+                contentType: 'application/vnd.' + command.commandName + version + '+json',
                 accepts: 'application/problem+json',
                 data: JSON.stringify(command),
                 error: function(data){
