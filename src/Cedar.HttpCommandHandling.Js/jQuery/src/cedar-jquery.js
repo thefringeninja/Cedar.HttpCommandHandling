@@ -13,10 +13,13 @@
 
         _options = options || _defaultOptions;
 
-
         this.execute = function(command){
             
             var prefix = _options.routePrefix || '';
+            
+            if(prefix !== '' && !endsWith(prefix, '/')){
+                prefix = prefix + '/';
+            }
 
             var deferred = new jQuery.Deferred();
 
@@ -46,6 +49,10 @@
         exports = module.exports = cedarJs;
       }
       exports.cedarJs = cedarJs;
+    }
+
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
 
 })(window.cedarJs = window.cedarJs || {}, jQuery);
