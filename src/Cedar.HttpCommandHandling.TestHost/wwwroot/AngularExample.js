@@ -1,11 +1,11 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('dempApp', ['cedarjs']);
+    var app = angular.module('demoApp', ['cedarjs']);
 
     app.config(function (commandApiProvider) {
         commandApiProvider.configure({
-            namespace: 'Cedar.HttpCommandHandling.TestHost'
+            routePrefix: 'test/'
         });
     });
 
@@ -17,7 +17,7 @@
 
             sendCommand({
                 commandId: "90D552BE-9259-4081-BEE0-A972D0AFAC8C",
-                commandName: "CommandThatIsAccepted",
+                commandName: "Cedar.HttpCommandHandling.TestHost.CommandThatIsAccepted",
                 value: 'Data'
             });
         };
@@ -26,7 +26,7 @@
 
             sendCommand({
                 commandId: "90D552BE-9259-4081-BEE0-A972D0AFAC8C",
-                commandName: "CommandThatThrowsProblemDetailsException"
+                commandName: "Cedar.HttpCommandHandling.TestHost.CommandThatThrowsProblemDetailsException"
             });
         };
         

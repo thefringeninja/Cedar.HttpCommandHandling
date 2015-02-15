@@ -29,7 +29,7 @@
                         RequestPath = new PathString("/cedarjs"),
                         FileSystem = new PhysicalFileSystem(@"..\..\..\Cedar.HttpCommandHandling.Js")
                     });
-                    app.Map("/commands", commandsApp => commandsApp.Use(commandHandlingMiddleware));
+                    app.Map("/test/commands", commandsApp => commandsApp.Use(commandHandlingMiddleware));
                 }))
             {
                 Process.Start("http://localhost:8080/index.html");
