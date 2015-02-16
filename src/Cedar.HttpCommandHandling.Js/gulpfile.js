@@ -14,8 +14,6 @@ gulp.task('jsTests', function () {
         });
 });
 
-gulp.task('default', [ 'jsTests', 'jquery-dist', 'angular-dist']);
-
 gulp.task('jquery-dist', function(){
     gulp.src('./jquery/src/*.js')
     .pipe(uglify())
@@ -29,3 +27,6 @@ gulp.task('angular-dist', function(){
     .pipe(rename('cedar-angular.min.js'))
     .pipe(gulp.dest('dist'))
 });
+
+gulp.task('default', [ 'jsTests']);
+gulp.task('compile', [ 'jquery-dist', 'angular-dist']);

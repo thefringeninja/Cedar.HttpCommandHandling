@@ -27,3 +27,15 @@ function Update-Version
 
 	Move-Item $tmpFile $assemblyInfoFilePath -force
 }
+
+function FindTool {
+	param(
+		[string]$name,
+		[string]$package_dir
+	)
+
+	Write-Host $package_dir
+	$result = Get-ChildItem "$package_dir\$name" | Select-Object -First 1
+
+	return $result.FullName
+}
