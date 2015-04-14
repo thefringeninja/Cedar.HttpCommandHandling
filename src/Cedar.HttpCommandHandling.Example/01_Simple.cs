@@ -12,10 +12,10 @@ namespace Cedar.HttpCommandHandling.Example.Simple
     using Microsoft.Owin.Hosting;
 
     // 1. Simple commands.
-    public class CommandSyncHandler
+    public class CommandWithSyncHandler
     {}
 
-    public class CommandAsyncHandler
+    public class CommandWithAsyncHandler
     {}
 
 
@@ -34,10 +34,10 @@ namespace Cedar.HttpCommandHandling.Example.Simple
         // should be injected as factory methods / funcs.
         public CommandModule(Func<IFoo> getFoo)
         {
-            For<CommandSyncHandler>()
+            For<CommandWithSyncHandler>()
                 .Handle(commandMessage => getFoo().Bar());
 
-            For<CommandAsyncHandler>()
+            For<CommandWithAsyncHandler>()
                 .Handle(async (commandMessage, ct) =>
                 {
                     var foo = getFoo();
