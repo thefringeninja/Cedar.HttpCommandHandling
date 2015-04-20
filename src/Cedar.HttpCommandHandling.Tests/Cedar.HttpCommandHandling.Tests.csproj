@@ -77,7 +77,6 @@
     <Compile Include="CommandHandlerResolverTests.cs" />
     <Compile Include="CommandHandlingSettingsTests.cs" />
     <Compile Include="CommandTypeResolversTests.cs" />
-    <Compile Include="HttpProblemDetailsExceptionTests.cs" />
     <Compile Include="HttpProblemDetailsTests.cs" />
     <Compile Include="DefaultGetEventStoreJsonSerializer.cs" />
     <Compile Include="CommandHandlingTests.cs" />
