@@ -36,11 +36,7 @@
     <DocumentationFile>bin\Release-PCL\Cedar.HttpCommandHandling.Client.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="packages.Cedar.HttpCommandHandling.Client-PCL.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="App_Packages\LibLog.3.0\LibLog.cs" />
+    <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="CommandClient.cs" />
     <Compile Include="HttpProblemDetails.cs" />
     <Compile Include="HttpProblemDetailsException.cs" />
@@ -49,6 +45,9 @@
     <Compile Include="SimpleJson.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TypeExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.Cedar.HttpCommandHandling.Client-PCL.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
