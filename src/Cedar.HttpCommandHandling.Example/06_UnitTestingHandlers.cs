@@ -9,7 +9,6 @@ namespace Cedar.HttpCommandHandling.Example.UnitTestinHandlers
     using System.Threading;
     using System.Threading.Tasks;
     using Cedar.CommandHandling;
-    using Cedar.HttpCommandHandling;
     using FakeItEasy;
     using Xunit;
 

@@ -8,6 +8,7 @@ namespace Cedar.HttpCommandHandling.Example.Simple
 {
     using System;
     using System.Threading.Tasks;
+    using Cedar.CommandHandling;
     using Cedar.HttpCommandHandling;
     using Microsoft.Owin.Hosting;
 

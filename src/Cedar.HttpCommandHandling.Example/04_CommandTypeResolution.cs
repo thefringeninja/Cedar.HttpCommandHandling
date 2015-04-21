@@ -32,6 +32,7 @@ namespace Cedar.HttpCommandHandling.Example.CommandTypeResolution
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Cedar.CommandHandling;
     using Cedar.HttpCommandHandling;
     using Cedar.HttpCommandHandling.TypeResolution;
 

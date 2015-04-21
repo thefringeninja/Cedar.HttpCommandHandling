@@ -40,6 +40,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CommandHandlerBuilderExtensions.cs" />
+    <Compile Include="CommandHandlerModule.cs" />
+    <Compile Include="CommandHandlerRegistration.cs" />
+    <Compile Include="CommandHandlerResolver.cs" />
     <Compile Include="CommandMessage.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="HandlerSync.cs" />
@@ -47,6 +51,7 @@
     <Compile Include="ICommandHandlerResolver.cs" />
     <Compile Include="Pipe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

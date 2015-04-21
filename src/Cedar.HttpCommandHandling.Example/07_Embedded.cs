@@ -23,6 +23,7 @@ namespace Cedar.HttpCommandHandling.Example.Embedded
     using System;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Cedar.CommandHandling;
     using Cedar.HttpCommandHandling;
     using Xunit;
 

@@ -72,17 +72,13 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CommandHandlerController.cs" />
-    <Compile Include="CommandHandlerModule.cs" />
-    <Compile Include="CommandHandlerResolver.cs" />
     <Compile Include="CommandHandlingSettings.cs" />
     <Compile Include="CommandMessageExtensions.cs" />
     <Compile Include="MapProblemDetailsFromException.cs" />
-    <Compile Include="CommandHandlerBuilderExtensions.cs" />
     <Compile Include="MidFuncExtensions.cs" />
     <Compile Include="HttpProblemDetailsExceptionFilterAttribute.cs" />
     <Compile Include="TinyIoC.cs" />
     <Compile Include="TypeResolution\CommandTypeResolvers.cs" />
-    <Compile Include="CommandHandlerRegistration.cs" />
     <Compile Include="TypeResolution\IParsedMediaType.cs" />
     <Compile Include="TypeResolution\ITypeResolver.cs" />
     <Compile Include="TaskExtensions.cs" />

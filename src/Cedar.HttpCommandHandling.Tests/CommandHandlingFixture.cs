@@ -5,6 +5,7 @@ namespace Cedar.HttpCommandHandling
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Cedar.CommandHandling;
 
     public class CommandHandlingFixture
     {

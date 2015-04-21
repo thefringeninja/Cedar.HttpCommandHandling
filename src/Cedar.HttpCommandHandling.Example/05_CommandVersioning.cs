@@ -13,7 +13,6 @@ namespace Cedar.HttpCommandHandling.Example.CommandVersioning
     using System;
     using System.Threading.Tasks;
     using Cedar.CommandHandling;
-    using Cedar.HttpCommandHandling;
 
     // 1. A number of versions of the same command.
     public class CreateTShirtV1

@@ -7,6 +7,7 @@
 namespace Cedar.HttpCommandHandling.Example.Piping
 {
     using System.Threading.Tasks;
+    using Cedar.CommandHandling;
 
     public class Command
     {}

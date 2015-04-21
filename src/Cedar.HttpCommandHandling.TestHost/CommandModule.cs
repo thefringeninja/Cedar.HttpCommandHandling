@@ -2,6 +2,7 @@
 {
     using System;
     using System.Net;
+    using Cedar.CommandHandling;
 
     public class CommandModule : CommandHandlerModule
     {

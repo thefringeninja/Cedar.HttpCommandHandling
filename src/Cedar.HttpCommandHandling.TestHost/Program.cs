@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using Cedar.CommandHandling;
     using Microsoft.Owin;
     using Microsoft.Owin.FileSystems;
     using Microsoft.Owin.Hosting;

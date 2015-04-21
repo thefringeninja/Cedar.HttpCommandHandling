@@ -1,8 +1,7 @@
-namespace Cedar.HttpCommandHandling
+namespace Cedar.CommandHandling
 {
     using System;
     using System.Collections.Generic;
-    using Cedar.CommandHandling;
 
     public class CommandHandlerResolver : ICommandHandlerResolver
     {
