@@ -20,20 +20,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug-PCL\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SIMPLE_JSON_TYPEINFO, LIBLOG_PORTABLE, CEDAR_TYPEINFO, SIMPLE_JSON_INTERNAL, SIMPLE_JSON_OBJARRAYINTERNAL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug-PCL\Cedar.CommandHandling.Http.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Cedar.CommandHandling.Http.Client.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release-PCL\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;SIMPLE_JSON_TYPEINFO, LIBLOG_PORTABLE, CEDAR_TYPEINFO, SIMPLE_JSON_INTERNAL, SIMPLE_JSON_OBJARRAYINTERNAL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release-PCL\Cedar.CommandHandling.Http.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Cedar.CommandHandling.Http.Client.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />

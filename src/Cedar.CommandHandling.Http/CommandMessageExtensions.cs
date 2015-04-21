@@ -1,8 +1,7 @@
-﻿namespace Cedar.CommandHandling.Http
+﻿namespace Cedar.CommandHandling
 {
     using System.Collections.Generic;
     using System.Security.Claims;
-    using Cedar.CommandHandling;
 
     public static class CommandMessageExtensions
     {
