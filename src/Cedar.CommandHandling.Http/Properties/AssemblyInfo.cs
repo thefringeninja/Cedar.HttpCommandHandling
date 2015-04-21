@@ -1,5 +1,5 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitle("Cedar.HttpCommandHandling")]
-[assembly: InternalsVisibleTo("Cedar.HttpCommandHandling.Tests")]
+[assembly: AssemblyTitle("Cedar.CommandHandling.Http")]
+[assembly: InternalsVisibleTo("Cedar.CommandHandling.Http.Tests")]

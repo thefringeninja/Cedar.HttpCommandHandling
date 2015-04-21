@@ -1,3 +1,3 @@
 ﻿using System.Reflection;
 
-[assembly: AssemblyTitle("Cedar.HttpCommandHandling.Example")]
+[assembly: AssemblyTitle("Cedar.CommandHandling.Example")]

@@ -8,8 +8,8 @@
     <ProjectGuid>{B3591387-2EBC-4D6F-A0C0-BEA555DFD192}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cedar.HttpCommandHandling</RootNamespace>
-    <AssemblyName>Cedar.HttpCommandHandling.Client</AssemblyName>
+    <RootNamespace>Cedar.CommandHandling.Http</RootNamespace>
+    <AssemblyName>Cedar.CommandHandling.Http.Client</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -24,7 +24,7 @@
     <DefineConstants>TRACE;DEBUG;SIMPLE_JSON_TYPEINFO, LIBLOG_PORTABLE, CEDAR_TYPEINFO, SIMPLE_JSON_INTERNAL, SIMPLE_JSON_OBJARRAYINTERNAL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug-PCL\Cedar.HttpCommandHandling.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug-PCL\Cedar.CommandHandling.Http.Client.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE;SIMPLE_JSON_TYPEINFO, LIBLOG_PORTABLE, CEDAR_TYPEINFO, SIMPLE_JSON_INTERNAL, SIMPLE_JSON_OBJARRAYINTERNAL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release-PCL\Cedar.HttpCommandHandling.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Release-PCL\Cedar.CommandHandling.Http.Client.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />

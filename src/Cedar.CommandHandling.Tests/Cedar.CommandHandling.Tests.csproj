@@ -7,8 +7,8 @@
     <ProjectGuid>{F286E287-573F-495E-804A-6278C9B7BEB8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cedar.HttpCommandHandling</RootNamespace>
-    <AssemblyName>Cedar.HttpCommandHandling.Tests</AssemblyName>
+    <RootNamespace>Cedar.CommandHandling</RootNamespace>
+    <AssemblyName>Cedar.CommandHandling.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>51d8d39d</NuGetPackageImportStamp>
@@ -89,13 +89,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cedar.CommandHandling.Http.Client\Cedar.CommandHandling.Http.Client.csproj">
+      <Project>{B3591387-2EBC-4D6F-A0C0-BEA555DFD192}</Project>
+      <Name>Cedar.CommandHandling.Http.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cedar.CommandHandling\Cedar.CommandHandling.csproj">
       <Project>{f6d3ad03-f93e-4b8b-b759-7a499ad4f4e4}</Project>
       <Name>Cedar.CommandHandling</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cedar.CommandHandling.Http.Client\Cedar.CommandHandling.Http.Client-PCL.csproj">
-      <Project>{b3591387-2ebc-4d6f-a0c0-bea555dfd192}</Project>
-      <Name>Cedar.HttpCommandHandling.Client-PCL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cedar.CommandHandling.Http\Cedar.CommandHandling.Http.csproj">
       <Project>{dcfcd369-4580-42d4-8f26-a071b9d17680}</Project>
