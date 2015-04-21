@@ -2,6 +2,7 @@ namespace Cedar.HttpCommandHandling
 {
     using System;
     using System.Collections.Generic;
+    using Cedar.CommandHandling;
 
     public class CommandHandlerResolver : ICommandHandlerResolver
     {

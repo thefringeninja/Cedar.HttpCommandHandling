@@ -75,6 +75,7 @@
     <Compile Include="CommandHandlerModule.cs" />
     <Compile Include="CommandHandlerResolver.cs" />
     <Compile Include="CommandHandlingSettings.cs" />
+    <Compile Include="CommandMessageExtensions.cs" />
     <Compile Include="MapProblemDetailsFromException.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="CommandHandlerBuilderExtensions.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="ICommandHandlerBuilder.cs" />
     <Compile Include="TaskExtensions.cs" />
     <Compile Include="CommandHandlingMiddleware.cs" />
-    <Compile Include="CommandMessage.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeResolution\MediaTypeParsers.cs" />
@@ -105,6 +105,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cedar.CommandHandling\Cedar.CommandHandling.csproj">
+      <Project>{f6d3ad03-f93e-4b8b-b759-7a499ad4f4e4}</Project>
+      <Name>Cedar.CommandHandling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cedar.HttpCommandHandling.Client\Cedar.HttpCommandHandling.Client-PCL.csproj">
       <Project>{b3591387-2ebc-4d6f-a0c0-bea555dfd192}</Project>
       <Name>Cedar.HttpCommandHandling.Client-PCL</Name>

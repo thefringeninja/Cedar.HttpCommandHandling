@@ -1,9 +1,8 @@
-﻿namespace Cedar.HttpCommandHandling
+namespace Cedar.CommandHandling
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Claims;
 
     /// <summary>
     /// Represents a command with associated metadata
@@ -47,32 +46,6 @@
         public TCommand Command
         {
             get { return _command; }
-        }
-    }
-
-    public static class CommandMessageExtensions
-    {
-        private const string UserKey = "Cedar.HttpCommandHandling#User";
-
-        public static T Get<T>(this IDictionary<string, object> dictionary, string key)
-        {
-            object value;
-            if(dictionary.TryGetValue(key, out value))
-            {
-                return (T) value;
-            }
-            return default(T);
-        }
-
-        public static ClaimsPrincipal GetUser<T>(this CommandMessage<T> commandMessage)
-        {
-            return commandMessage.Metadata.Get<ClaimsPrincipal>(UserKey);
-        }
-
-        public static CommandMessage<T> SetUser<T>(this CommandMessage<T> commandMessage, ClaimsPrincipal user)
-        {
-            commandMessage.Metadata[UserKey] = user;
-            return commandMessage;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Cedar.HttpCommandHandling.Example.PipingExtensions
 {
     using System;
     using System.Threading.Tasks;
+    using Cedar.CommandHandling;
     using Cedar.HttpCommandHandling;
 
     public class Command1

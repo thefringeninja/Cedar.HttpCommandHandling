@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cedar.HttpCommandHandling.Tests", "Cedar.HttpCommandHandling.Tests\Cedar.HttpCommandHandling.Tests.csproj", "{F286E287-573F-495E-804A-6278C9B7BEB8}"
 EndProject
@@ -21,6 +21,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cedar.HttpCommandHandling.Client-PCL", "Cedar.HttpCommandHandling.Client\Cedar.HttpCommandHandling.Client-PCL.csproj", "{B3591387-2EBC-4D6F-A0C0-BEA555DFD192}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cedar.HttpCommandHandling.TestHost", "Cedar.HttpCommandHandling.TestHost\Cedar.HttpCommandHandling.TestHost.csproj", "{D7DD6F18-6509-4D53-A616-AF0C41E8B722}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cedar.CommandHandling", "Cedar.CommandHandling\Cedar.CommandHandling.csproj", "{F6D3AD03-F93E-4B8B-B759-7A499AD4F4E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{D7DD6F18-6509-4D53-A616-AF0C41E8B722}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7DD6F18-6509-4D53-A616-AF0C41E8B722}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7DD6F18-6509-4D53-A616-AF0C41E8B722}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D3AD03-F93E-4B8B-B759-7A499AD4F4E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D3AD03-F93E-4B8B-B759-7A499AD4F4E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D3AD03-F93E-4B8B-B759-7A499AD4F4E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D3AD03-F93E-4B8B-B759-7A499AD4F4E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

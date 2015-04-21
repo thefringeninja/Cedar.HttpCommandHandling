@@ -64,6 +64,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cedar.CommandHandling\Cedar.CommandHandling.csproj">
+      <Project>{F6D3AD03-F93E-4B8B-B759-7A499AD4F4E4}</Project>
+      <Name>Cedar.CommandHandling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cedar.HttpCommandHandling.Client\Cedar.HttpCommandHandling.Client-PCL.csproj">
       <Project>{b3591387-2ebc-4d6f-a0c0-bea555dfd192}</Project>
       <Name>Cedar.HttpCommandHandling.Client-PCL</Name>

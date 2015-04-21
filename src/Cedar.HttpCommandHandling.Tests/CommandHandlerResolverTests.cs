@@ -1,6 +1,7 @@
 ﻿namespace Cedar.HttpCommandHandling
 {
     using System.Threading.Tasks;
+    using Cedar.CommandHandling;
     using FluentAssertions;
     using Xunit;
 
