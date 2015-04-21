@@ -66,5 +66,7 @@ namespace Cedar.HttpCommandHandling
                 _parseMediaType = value;
             }
         }
+
+        public PredispatchHook PredispatchHook { get; set; }
     }
 }

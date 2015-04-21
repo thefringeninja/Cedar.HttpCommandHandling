@@ -14,8 +14,9 @@ namespace Cedar.HttpCommandHandling
 
     internal class CommandHandlerController : ApiController
     {
-        internal static readonly MethodInfo DispatchCommandMethodInfo = typeof(CommandHandlerController)
+        private static readonly MethodInfo DispatchCommandMethodInfo = typeof(CommandHandlerController)
             .GetMethod("DispatchCommand", BindingFlags.Static | BindingFlags.NonPublic);
+        //private Dictionary<Type, Func<Guid, ClaimsPrincipal>> 
 
         private readonly CommandHandlingSettings _settings;
 
@@ -39,10 +40,21 @@ namespace Cedar.HttpCommandHandling
             var user = (User as ClaimsPrincipal) ?? new ClaimsPrincipal(new ClaimsIdentity());
             MethodInfo dispatchCommandMethod = DispatchCommandMethodInfo.MakeGenericMethod(command.GetType());
 
+            var temp = _settings.PredispatchHook ?? (metadata => { });
+            PredispatchHook predispatchHook = metadata =>
+            {
+                metadata[CommandMessageExtensions.UserKey] = user;
+                temp(metadata);
+            };
+
             Func<Task> func = async () => await ((Task)dispatchCommandMethod.Invoke(null,
                new[]
                 {
-                    _settings.HandlerResolver, commandId, user, command, cancellationToken
+                    _settings.HandlerResolver,
+                    commandId,
+                    command,
+                    predispatchHook,
+                    cancellationToken
                 })).NotOnCapturedContext();
 
             await func();
@@ -81,13 +93,13 @@ namespace Cedar.HttpCommandHandling
         private static async Task DispatchCommand<TCommand>(
             ICommandHandlerResolver handlerResolver,
             Guid commandId,
-            ClaimsPrincipal requstUser,
             TCommand command,
+            PredispatchHook predispatchHook,
             CancellationToken cancellationToken)
             where TCommand : class
         {
-            var commandMessage = new CommandMessage<TCommand>(commandId, command)
-                .SetUser(requstUser);
+            var commandMessage = new CommandMessage<TCommand>(commandId, command);
+            predispatchHook(commandMessage.Metadata);
             await handlerResolver.Resolve<TCommand>()(commandMessage, cancellationToken);
         }
     }

@@ -6,7 +6,7 @@
 
     public static class CommandMessageExtensions
     {
-        private const string UserKey = "Cedar.HttpCommandHandling#User";
+        public const string UserKey = "Cedar.HttpCommandHandling#User";
 
         public static T Get<T>(this IDictionary<string, object> dictionary, string key)
         {
