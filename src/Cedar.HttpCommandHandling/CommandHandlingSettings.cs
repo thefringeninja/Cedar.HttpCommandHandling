@@ -1,6 +1,7 @@
 namespace Cedar.HttpCommandHandling
 {
     using Cedar.Annotations;
+    using Cedar.CommandHandling;
     using Cedar.HttpCommandHandling.TypeResolution;
     using CuttingEdge.Conditions;
 

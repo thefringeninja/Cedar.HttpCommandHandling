@@ -1,4 +1,4 @@
-﻿namespace Cedar.HttpCommandHandling
+namespace Cedar.CommandHandling
 {
     using System.Threading;
     using System.Threading.Tasks;

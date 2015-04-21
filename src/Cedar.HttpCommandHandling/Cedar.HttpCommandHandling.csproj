@@ -77,16 +77,13 @@
     <Compile Include="CommandHandlingSettings.cs" />
     <Compile Include="CommandMessageExtensions.cs" />
     <Compile Include="MapProblemDetailsFromException.cs" />
-    <Compile Include="Handler.cs" />
     <Compile Include="CommandHandlerBuilderExtensions.cs" />
-    <Compile Include="HandlerSync.cs" />
     <Compile Include="MidFuncExtensions.cs" />
     <Compile Include="Pipe.cs" />
     <Compile Include="HttpProblemDetailsExceptionFilterAttribute.cs" />
     <Compile Include="TinyIoC.cs" />
     <Compile Include="TypeResolution\CommandTypeResolvers.cs" />
     <Compile Include="CommandHandlerRegistration.cs" />
-    <Compile Include="ICommandHandlerResolver.cs" />
     <Compile Include="TypeResolution\IParsedMediaType.cs" />
     <Compile Include="TypeResolution\ITypeResolver.cs" />
     <Compile Include="ICommandHandlerBuilder.cs" />
