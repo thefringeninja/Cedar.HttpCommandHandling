@@ -60,8 +60,8 @@ namespace Cedar.HttpCommandHandling.Example.CommandVersioning
                     };
                     var upconvertedCommand = new CommandMessage<CreateTShirtV3>(
                         commandMessage.CommandId,
-                        commandMessage.User,
-                        command);
+                        command,
+                        commandMessage.Metadata);
                     return createTShirtV3Handler(upconvertedCommand, ct); // 4. ... and invoke it here
                 });
         }

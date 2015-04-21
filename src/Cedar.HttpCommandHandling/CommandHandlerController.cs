@@ -85,7 +85,8 @@ namespace Cedar.HttpCommandHandling
             CancellationToken cancellationToken)
             where TCommand : class
         {
-            var commandMessage = new CommandMessage<TCommand>(commandId, requstUser, command);
+            var commandMessage = new CommandMessage<TCommand>(commandId, command)
+                .SetUser(requstUser);
             await handlerResolver.Resolve<TCommand>()(commandMessage, cancellationToken);
         }
     }

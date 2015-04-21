@@ -28,7 +28,7 @@ namespace Cedar.HttpCommandHandling.Example.PipingExtensions
         {
             return commandHandlerBuilder.Pipe(next => (commandMessage, ct) =>
             {
-                if(!commandMessage.User.IsInRole(role))
+                if(!commandMessage.GetUser().IsInRole(role))
                 {
                     throw new InvalidOperationException("Not Authorized");
                 }

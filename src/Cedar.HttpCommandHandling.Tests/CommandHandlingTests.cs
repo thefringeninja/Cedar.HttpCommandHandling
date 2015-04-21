@@ -38,7 +38,7 @@
                 commandMessage.Command.Should().BeOfType<Command>();
                 commandMessage.Command.Should().NotBeNull();
                 commandMessage.CommandId.Should().Be(commandId);
-                commandMessage.User.Should().NotBeNull();
+                commandMessage.GetUser().Should().NotBeNull();
             }
         }
 
