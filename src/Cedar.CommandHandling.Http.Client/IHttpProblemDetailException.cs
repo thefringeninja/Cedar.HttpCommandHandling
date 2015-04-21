@@ -1,4 +1,4 @@
-namespace Cedar.HttpCommandHandling
+namespace Cedar.CommandHandling.Http
 {
     internal interface IHttpProblemDetailException
     {

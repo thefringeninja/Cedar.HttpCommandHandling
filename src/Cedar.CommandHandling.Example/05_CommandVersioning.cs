@@ -8,7 +8,7 @@
  */
 
 // ReSharper disable once CheckNamespace
-namespace Cedar.HttpCommandHandling.Example.CommandVersioning
+namespace Cedar.CommandHandling.Example.CommandVersioning
 {
     using System;
     using System.Threading.Tasks;

@@ -1,11 +1,11 @@
-namespace Cedar.HttpCommandHandling
+namespace Cedar.CommandHandling
 {
     using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Cedar.CommandHandling;
+    using Cedar.CommandHandling.Http;
 
     public class CommandHandlingFixture
     {

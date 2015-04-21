@@ -8,11 +8,11 @@
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
 
-namespace Cedar.Annotations
+namespace Cedar.CommandHandling.Http.Properties
 {
     using System;
 
-  /// <summary>
+    /// <summary>
   /// Indicates that the value of the marked element could never be <c>null</c>
   /// </summary>
   /// <example><code>

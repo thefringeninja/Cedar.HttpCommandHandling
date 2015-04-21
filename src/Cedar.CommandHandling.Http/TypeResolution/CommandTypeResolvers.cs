@@ -1,9 +1,9 @@
-namespace Cedar.HttpCommandHandling.TypeResolution
+namespace Cedar.CommandHandling.Http.TypeResolution
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Cedar.Annotations;
+    using Cedar.CommandHandling.Http.Properties;
     using CuttingEdge.Conditions;
 
     public static class CommandTypeResolvers

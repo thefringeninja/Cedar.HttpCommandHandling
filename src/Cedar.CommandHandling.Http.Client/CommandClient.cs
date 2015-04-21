@@ -1,11 +1,11 @@
-﻿namespace Cedar.HttpCommandHandling
+﻿namespace Cedar.CommandHandling.Http
 {
     using System;
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
-    using Cedar.HttpCommandHandling.Logging;
+    using Cedar.CommandHandling.Http.Logging;
 
     public static class CommandClient
     {

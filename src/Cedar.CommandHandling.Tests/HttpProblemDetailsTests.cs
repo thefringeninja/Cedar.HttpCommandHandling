@@ -1,7 +1,8 @@
-﻿namespace Cedar.HttpCommandHandling
+﻿namespace Cedar.CommandHandling
 {
     using System;
     using System.Net;
+    using Cedar.CommandHandling.Http;
     using FluentAssertions;
     using Xunit;
 

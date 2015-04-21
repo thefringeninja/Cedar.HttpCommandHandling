@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using Cedar.CommandHandling;
+    using Cedar.CommandHandling.Http;
     using Microsoft.Owin;
     using Microsoft.Owin.FileSystems;
     using Microsoft.Owin.Hosting;

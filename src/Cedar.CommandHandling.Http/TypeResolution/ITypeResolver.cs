@@ -1,4 +1,4 @@
-namespace Cedar.HttpCommandHandling.TypeResolution
+namespace Cedar.CommandHandling.Http.TypeResolution
 {
     using System;
 

@@ -4,12 +4,12 @@
  */
 
 // ReSharper disable once CheckNamespace
-namespace Cedar.HttpCommandHandling.Example.Simple
+namespace Cedar.CommandHandling.Example.Simple
 {
     using System;
     using System.Threading.Tasks;
     using Cedar.CommandHandling;
-    using Cedar.HttpCommandHandling;
+    using Cedar.CommandHandling.Http;
     using Microsoft.Owin.Hosting;
 
     // 1. Simple commands.

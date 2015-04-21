@@ -2,7 +2,7 @@
 namespace Cedar.Commands.CommandTypeResolversTests
 {
     using System;
-    using Cedar.HttpCommandHandling.TypeResolution;
+    using Cedar.CommandHandling.Http.TypeResolution;
     using FluentAssertions;
     using Xunit.Extensions;
 

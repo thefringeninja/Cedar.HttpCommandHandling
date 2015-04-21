@@ -3,6 +3,7 @@
     using System;
     using System.Net;
     using Cedar.CommandHandling;
+    using Cedar.CommandHandling.Http;
 
     public class CommandModule : CommandHandlerModule
     {

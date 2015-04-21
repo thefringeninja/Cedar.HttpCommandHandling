@@ -1,8 +1,8 @@
-namespace Cedar.HttpCommandHandling
+namespace Cedar.CommandHandling.Http
 {
-    using Cedar.Annotations;
     using Cedar.CommandHandling;
-    using Cedar.HttpCommandHandling.TypeResolution;
+    using Cedar.CommandHandling.Http.Properties;
+    using Cedar.CommandHandling.Http.TypeResolution;
     using CuttingEdge.Conditions;
 
     public class CommandHandlingSettings

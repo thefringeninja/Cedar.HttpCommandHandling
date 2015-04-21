@@ -1,4 +1,4 @@
-namespace Cedar.HttpCommandHandling
+namespace Cedar.CommandHandling.Http
 {
     using System;
     using System.Net;
@@ -8,9 +8,9 @@ namespace Cedar.HttpCommandHandling
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using Cedar.Annotations;
     using Cedar.CommandHandling;
-    using Cedar.HttpCommandHandling.TypeResolution;
+    using Cedar.CommandHandling.Http.Properties;
+    using Cedar.CommandHandling.Http.TypeResolution;
 
     internal class CommandHandlerController : ApiController
     {

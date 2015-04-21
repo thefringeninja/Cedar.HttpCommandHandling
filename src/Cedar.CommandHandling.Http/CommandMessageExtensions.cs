@@ -1,4 +1,4 @@
-﻿namespace Cedar.HttpCommandHandling
+﻿namespace Cedar.CommandHandling.Http
 {
     using System.Collections.Generic;
     using System.Security.Claims;

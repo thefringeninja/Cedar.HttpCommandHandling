@@ -34,14 +34,14 @@
  */
 
 // ReSharper disable once CheckNamespace
-namespace Cedar.HttpCommandHandling.Example.Exceptions
+namespace Cedar.CommandHandling.Example.Exceptions
 {
     using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using Cedar.CommandHandling;
-    using Cedar.HttpCommandHandling;
+    using Cedar.CommandHandling.Http;
     using Xunit;
 
     public class CommandThatThrowsStandardException { }

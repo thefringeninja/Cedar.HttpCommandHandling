@@ -1,7 +1,7 @@
-﻿namespace Cedar.HttpCommandHandling
+﻿namespace Cedar.CommandHandling
 {
-    using Cedar.CommandHandling;
-    using Cedar.HttpCommandHandling.TypeResolution;
+    using Cedar.CommandHandling.Http;
+    using Cedar.CommandHandling.Http.TypeResolution;
     using FakeItEasy;
     using FluentAssertions;
     using Xunit;
