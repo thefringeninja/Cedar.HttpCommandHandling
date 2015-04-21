@@ -16,7 +16,7 @@
         <frameworkAssemblies />
         <releaseNotes/>
         <dependencies>
-            <dependency id="Cedar.CommandHandling.Client" version="[0.8,0.9)"/>
+            <dependency id="Cedar.CommandHandling.Client" version="[1.0, 2.0)"/>
         </dependencies>
     </metadata>
     <files>
