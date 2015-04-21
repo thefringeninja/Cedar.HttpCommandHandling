@@ -13,6 +13,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+#pragma warning disable 1591
 #region Preprocessor Directives
 // Uncomment this line if you want the container to automatically
 // register the TinyMessenger messenger/event aggregator
