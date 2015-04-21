@@ -1,7 +1,5 @@
-﻿namespace Cedar.HttpCommandHandling
+namespace Cedar.CommandHandling
 {
-    using Cedar.CommandHandling;
-
     /// <summary>
     ///     Provides a mechanism to fluently build a command handler pipeline.
     /// </summary>
