@@ -71,13 +71,13 @@
       <Project>{B3591387-2EBC-4D6F-A0C0-BEA555DFD192}</Project>
       <Name>Cedar.CommandHandling.Http.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cedar.CommandHandling.Http\Cedar.CommandHandling.Http.csproj">
+      <Project>{DCFCD369-4580-42D4-8F26-A071B9D17680}</Project>
+      <Name>Cedar.CommandHandling.Http</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cedar.CommandHandling\Cedar.CommandHandling.csproj">
       <Project>{F6D3AD03-F93E-4B8B-B759-7A499AD4F4E4}</Project>
       <Name>Cedar.CommandHandling</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cedar.CommandHandling.Http\Cedar.CommandHandling.Http.csproj">
-      <Project>{DCFCD369-4580-42D4-8F26-A071B9D17680}</Project>
-      <Name>Cedar.HttpCommandHandling</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
