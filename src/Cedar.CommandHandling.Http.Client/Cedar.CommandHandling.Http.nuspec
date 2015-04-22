@@ -1,0 +1,26 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Cedar.HttpCommandHandling.Client</id>
+        <version>0.0.0.0</version>
+        <authors>Damian Hickey</authors>
+        <owners>Damian Hickey</owners>
+        <projectUrl>https://github.com/damianh/Cedar.CommandHandling</projectUrl>
+        <licenseUrl>https://github.com/damianh/Cedar.CommandHandling/blob/master/LICENSE</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <title>Cedar - HTTP Command Handling Client</title>
+        <description>
+            A library to assist is sendig commands sent over HTTP. Typically used in CQS and CQRS applications. Supports HTTP Problem Details.
+        </description><tags>cqrs event-sourcing domain-driven-design</tags>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System.Net.Http"/>
+        </frameworkAssemblies>
+        <releaseNotes/>
+        <dependencies/>
+    </metadata>
+    <files>
+        <file src="bin\Release-PCL\Cedar.CommandHandling.Http.Client.dll" target="lib\Portable-Net45+Win8+WP8+WPA81" />
+        <file src="bin\Release-PCL\Cedar.CommandHandling.Http.Client.pdb" target="lib\Portable-Net45+Win8+WP8+WPA81" />
+        <file src="bin\Release-PCL\Cedar.CommandHandling.Http.Client.xml" target="lib\Portable-Net45+Win8+WP8+WPA81" />
+    </files>
+</package>

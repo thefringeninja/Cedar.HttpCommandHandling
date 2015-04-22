@@ -1,5 +1,5 @@
 properties {
-    $projectName            = "Cedar.HttpCommandHandling"
+    $projectName            = "Cedar.CommandHandling"
     $buildNumber            = 0
     $rootDir                = Resolve-Path .\
     $buildOutputDir         = "$rootDir\build"
@@ -11,7 +11,7 @@ properties {
     $assemblyInfoFilePath   = "$srcDir\SharedAssemblyInfo.cs"
     $ilmergePath            = "$srcDir\packages\ILMerge.2.14.1208\tools\ilmerge.exe"
     $npm_directory          = "$srcDir\node_modules"
-    $nugetPath 		        = "$srcDir\.nuget\nuget.exe"
+    $nugetPath 		          = "$srcDir\.nuget\nuget.exe"
     $node_path              = FindTool "Node.js.*\node.exe" "$package_directory"
     $npm_path               = FindTool "Npm.js.*\tools\npm.cmd" "$package_directory"
     $gulp_path              = "$npm_directory\gulp\bin\gulp.js"
@@ -53,17 +53,17 @@ task RunTests -depends Compile, TestJs {
 task ILMerge -depends Compile {
     New-Item $mergedDir -Type Directory -ErrorAction SilentlyContinue
 
-    $dllDir = "$srcDir\Cedar.HttpCommandHandling\bin\Release"
-    $inputDlls = "$dllDir\Cedar.HttpCommandHandling.dll"
+    $dllDir = "$srcDir\Cedar.CommandHandling.Http\bin\Release"
+    $inputDlls = "$dllDir\Cedar.CommandHandling.Http.dll"
     @("CuttingEdge.Conditions", "Microsoft.Owin", "Newtonsoft.Json", "Owin", "OwinHttpMessageHandler", "System.Net.Http.Formatting", "System.Web.Http",`
         "System.Web.Http.Owin") |% { $inputDlls = "$inputDlls $dllDir\$_.dll" }
-    Invoke-Expression "$ilmergePath /targetplatform:v4 /internalize /allowDup /target:library /log /out:$mergedDir\Cedar.HttpCommandHandling.dll $inputDlls"
+    Invoke-Expression "$ilmergePath /targetplatform:v4 /internalize /allowDup /target:library /log /out:$mergedDir\Cedar.CommandHandling.Http.dll $inputDlls"
 }
 
 task CompileJs -depends RestoreNpm {
-    pushd $srcDir; pushd "Cedar.HttpCommandHandling.Js"
-    
-    try { 
+    pushd $srcDir; pushd "Cedar.CommandHandling.Http.Js"
+
+    try {
             Exec {
                 & $node_path $gulp_path "compile" --outdir=$output_directory
             }
@@ -71,14 +71,14 @@ task CompileJs -depends RestoreNpm {
         catch [Exception] {
             $script:errorOccured = $true
         }
-    
+
     popd; popd
 }
 
 task TestJs {
-    pushd $srcDir; pushd "Cedar.HttpCommandHandling.Js"
-    
-    try { 
+    pushd $srcDir; pushd "Cedar.CommandHandling.Http.Js"
+
+    try {
             Exec {
                 & $node_path $karma_path start --single-run --outdir=$output_directory
             }
