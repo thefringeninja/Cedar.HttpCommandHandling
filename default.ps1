@@ -46,7 +46,8 @@ task Compile -depends CompileJs {
 }
 
 task RunTests -depends Compile, TestJs {
-    .$xunitRunner "$srcDir\Cedar.CommandHandling.Tests\bin\Release\Cedar.CommandHandling.Tests.dll" /html "$reportsDir\xUnit\$project\index.html"
+    New-Item $reportsDir\xUnit\$project -Type Directory -ErrorAction SilentlyContinue
+    .$xunitRunner "$srcDir\Cedar.CommandHandling.Tests\bin\Release\Cedar.CommandHandling.Tests.dll" -html "$reportsDir\xUnit\$project\index.html"
 }
 
 task ILMerge -depends Compile {
