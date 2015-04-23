@@ -98,7 +98,7 @@ task TestJs {
 task RestoreNpm -depends RestoreNuget {
     $env:Path = $nodePath + ";" + $env:Path
     pushd $srcDir
-    & $npmPath install --registry $npm_registry
+    & $npmPath install
     popd
 }
 
