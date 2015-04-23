@@ -10,7 +10,7 @@ properties {
     $solutionFilePath       = "$srcDir\$projectName.sln"
     $assemblyInfoFilePath   = "$srcDir\SharedAssemblyInfo.cs"
     $ilmergePath            = FindTool "ILMerge.*\tools\ilmerge.exe" "$packagesDir"
-    $xunitRunner            = FindTool "xunit.runners.*\tools\xunit.console.clr4.exe" "$packagesDir"
+    $xunitRunner            = FindTool "xunit.runner.console.*\tools\xunit.console.clr4.exe" "$packagesDir"
     $npmDirectory           = "$srcDir\node_modules"
     $nugetPath              = "$srcDir\.nuget\nuget.exe"
     $nodePath               = FindTool "Node.js.*\node.exe" "$packagesDir"
