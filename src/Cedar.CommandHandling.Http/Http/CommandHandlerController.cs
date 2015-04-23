@@ -1,6 +1,7 @@
 namespace Cedar.CommandHandling.Http
 {
     using System;
+    using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Reflection;
@@ -9,6 +10,7 @@ namespace Cedar.CommandHandling.Http
     using System.Threading.Tasks;
     using System.Web.Http;
     using Cedar.CommandHandling;
+    using Cedar.CommandHandling.Http.Logging;
     using Cedar.CommandHandling.Http.Properties;
     using Cedar.CommandHandling.Http.TypeResolution;
 
@@ -19,10 +21,26 @@ namespace Cedar.CommandHandling.Http
         //private Dictionary<Type, Func<Guid, ClaimsPrincipal>> 
 
         private readonly CommandHandlingSettings _settings;
+        private readonly Predispatch _predispatch;
+        private static ILog Logger = LogProvider.For<CommandHandlerController>();
 
         public CommandHandlerController(CommandHandlingSettings settings)
         {
             _settings = settings;
+
+            var temp = _settings.OnPredispatch ?? ((_, __) => { });
+            _predispatch = (metadata, headers) =>
+            {
+                metadata[CommandMessageExtensions.UserKey] = (User as ClaimsPrincipal) ?? new ClaimsPrincipal(new ClaimsIdentity());
+                try
+                {
+                    temp(metadata, headers);
+                }
+                catch(Exception ex)
+                {
+                    Logger.ErrorException("Exception occured invoking the Predispatch hook", ex);
+                }
+            };
         }
 
         [Route("{commandId}")]
@@ -37,23 +55,16 @@ namespace Cedar.CommandHandling.Http
             }
 
             object command = await DeserializeCommand(commandType);
-            var user = (User as ClaimsPrincipal) ?? new ClaimsPrincipal(new ClaimsIdentity());
             MethodInfo dispatchCommandMethod = DispatchCommandMethodInfo.MakeGenericMethod(command.GetType());
-
-            var temp = _settings.PredispatchHook ?? (metadata => { });
-            PredispatchHook predispatchHook = metadata =>
-            {
-                metadata[CommandMessageExtensions.UserKey] = user;
-                temp(metadata);
-            };
-
+            
             Func<Task> func = async () => await ((Task)dispatchCommandMethod.Invoke(null,
                new[]
                 {
                     _settings.HandlerResolver,
                     commandId,
                     command,
-                    predispatchHook,
+                    _predispatch,
+                    Request.Headers,
                     cancellationToken
                 })).NotOnCapturedContext();
 
@@ -94,12 +105,13 @@ namespace Cedar.CommandHandling.Http
             ICommandHandlerResolver handlerResolver,
             Guid commandId,
             TCommand command,
-            PredispatchHook predispatchHook,
+            Predispatch predispatch,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders,
             CancellationToken cancellationToken)
             where TCommand : class
         {
             var commandMessage = new CommandMessage<TCommand>(commandId, command);
-            predispatchHook(commandMessage.Metadata);
+            predispatch(commandMessage.Metadata, requestHeaders);
             await handlerResolver.Resolve<TCommand>()(commandMessage, cancellationToken);
         }
     }

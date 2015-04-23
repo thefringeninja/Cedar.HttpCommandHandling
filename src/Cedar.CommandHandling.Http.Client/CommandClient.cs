@@ -9,7 +9,7 @@
 
     public static class CommandClient
     {
-        private static readonly ILog Logger = LogProvider.GetLogger("Cedar.HttpCommandHandling.CommandClient");
+        private static readonly ILog Logger = LogProvider.GetLogger(typeof(CommandClient).Name);
         internal static readonly ProductInfoHeaderValue UserAgent;
         internal static readonly IJsonSerializerStrategy JsonSerializerStrategy = new CamelCasingSerializerStrategy();
         internal const string HttpProblemDetailsClrType = "Cedar-HttpProblemDetails-ClrType";
@@ -22,14 +22,19 @@
             UserAgent = new ProductInfoHeaderValue(type.FullName, version.Major + "." + version.Minor);
         }
 
-        public static Task PutCommand(this HttpClient client, object command, Guid commandId)
+        public static async Task PutCommand(
+            this HttpClient client,
+            object command,
+            Guid commandId,
+            string basePath = null,
+            Action<HttpRequestMessage> customizeRequest = null)
         {
-            return PutCommand(client, command, commandId, string.Empty);
-        }
-
-        public static async Task PutCommand(this HttpClient client, object command, Guid commandId, string basePath)
-        {
+            basePath = basePath ?? string.Empty;
             var request = CreatePutCommandRequest(command, commandId, basePath);
+            if(customizeRequest != null)
+            {
+                customizeRequest(request);
+            }
 
             Logger.InfoFormat("Put Command {0}. Type: {1}", commandId, command.GetType());
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);

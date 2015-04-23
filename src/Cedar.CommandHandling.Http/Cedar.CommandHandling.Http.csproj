@@ -76,7 +76,7 @@
     <Compile Include="Http\MapProblemDetailsFromException.cs" />
     <Compile Include="Http\MidFuncExtensions.cs" />
     <Compile Include="Http\HttpProblemDetailsExceptionFilterAttribute.cs" />
-    <Compile Include="Http\PredispatchHook.cs" />
+    <Compile Include="Http\Predispatch.cs" />
     <Compile Include="TinyIoC.cs" />
     <Compile Include="Http\TypeResolution\CommandTypeResolvers.cs" />
     <Compile Include="Http\TypeResolution\IParsedMediaType.cs" />

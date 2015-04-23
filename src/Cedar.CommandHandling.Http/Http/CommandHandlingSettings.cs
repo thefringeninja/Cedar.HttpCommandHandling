@@ -67,6 +67,6 @@ namespace Cedar.CommandHandling.Http
             }
         }
 
-        public PredispatchHook PredispatchHook { get; set; }
+        public Predispatch OnPredispatch { get; set; }
     }
 }

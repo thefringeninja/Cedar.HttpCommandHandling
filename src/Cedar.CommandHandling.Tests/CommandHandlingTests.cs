@@ -12,7 +12,7 @@
 
     public class CommandHandlingTests : IClassFixture<CommandHandlingFixture>
     {
-        private CommandHandlingFixture _fixture;
+        private readonly CommandHandlingFixture _fixture;
 
         public CommandHandlingTests(CommandHandlingFixture commandHandlingFixture)
         {

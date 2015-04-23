@@ -8,11 +8,11 @@ namespace Cedar.CommandHandling
     /// Represents a command with associated metadata
     /// </summary>
     /// <typeparam name="TCommand">The type of the command.</typeparam>
-    public class CommandMessage<TCommand> 
+    public sealed class CommandMessage<TCommand> 
     {
-        private readonly TCommand _command;
-        private readonly Guid _commandId;
-        private readonly IDictionary<string, object> _metadata = new Dictionary<string, object>();
+        public readonly TCommand Command;
+        public readonly Guid CommandId;
+        public readonly IDictionary<string, object> Metadata = new Dictionary<string, object>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandMessage{TCommand}"/> class.
@@ -25,27 +25,12 @@ namespace Cedar.CommandHandling
             TCommand command,
             IDictionary<string, object> metadata = null)
         {
-            _commandId = commandId;
-            _command = command;
+            CommandId = commandId;
+            Command = command;
             if(metadata != null)
             {
-                _metadata = metadata.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                Metadata = metadata.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
-        }
-
-        public IDictionary<string, object> Metadata
-        {
-            get { return _metadata; }
-        }
-
-        public Guid CommandId
-        {
-            get { return _commandId; }
-        }
-
-        public TCommand Command
-        {
-            get { return _command; }
         }
     }
 }
