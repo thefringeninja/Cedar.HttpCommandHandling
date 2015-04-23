@@ -6,17 +6,18 @@ properties {
     $mergedDir              = "$buildOutputDir\merged"
     $reportsDir             = "$buildOutputDir\reports"
     $srcDir                 = "$rootDir\src"
-    $package_directory      = "$srcDir\packages"
+    $packagesDir            = "$srcDir\packages"
     $solutionFilePath       = "$srcDir\$projectName.sln"
     $assemblyInfoFilePath   = "$srcDir\SharedAssemblyInfo.cs"
-    $ilmergePath            = "$srcDir\packages\ILMerge.2.14.1208\tools\ilmerge.exe"
-    $npm_directory          = "$srcDir\node_modules"
-    $nugetPath 		          = "$srcDir\.nuget\nuget.exe"
-    $node_path              = FindTool "Node.js.*\node.exe" "$package_directory"
-    $npm_path               = FindTool "Npm.js.*\tools\npm.cmd" "$package_directory"
-    $gulp_path              = "$npm_directory\gulp\bin\gulp.js"
-    $karma_path             = "$npm_directory\karma\bin\karma"
-    $script:errorOccured = $false
+    $ilmergePath            = FindTool "ILMerge.*\tools\ilmerge.exe" "$packagesDir"
+    $xunitRunner            = FindTool "xunit.runners.*\tools\xunit.console.clr4.exe" "$packagesDir"
+    $npmDirectory           = "$srcDir\node_modules"
+    $nugetPath              = "$srcDir\.nuget\nuget.exe"
+    $nodePath               = FindTool "Node.js.*\node.exe" "$packagesDir"
+    $npmPath                = FindTool "Npm.js.*\tools\npm.cmd" "$packagesDir"
+    $gulpPath               = "$npmDirectory\gulp\bin\gulp.js"
+    $karmaPath              = "$npmDirectory\karma\bin\karma"
+    $script:errorOccured    = $false
 }
 
 task default -depends Clean, UpdateVersion, RunTests, CreateNuGetPackages, AssertBuildResult
@@ -45,8 +46,6 @@ task Compile -depends CompileJs {
 }
 
 task RunTests -depends Compile, TestJs {
-    $xunitRunner = "$srcDir\packages\xunit.runners.1.9.2\tools\xunit.console.clr4.exe"
-
     .$xunitRunner "$srcDir\Cedar.CommandHandling.Tests\bin\Release\Cedar.CommandHandling.Tests.dll" /html "$reportsDir\xUnit\$project\index.html"
 }
 
@@ -55,7 +54,13 @@ task ILMerge -depends Compile {
 
     $dllDir = "$srcDir\Cedar.CommandHandling.Http\bin\Release"
     $inputDlls = "$dllDir\Cedar.CommandHandling.Http.dll"
-    @("CuttingEdge.Conditions", "Microsoft.Owin", "Newtonsoft.Json", "Owin", "OwinHttpMessageHandler", "System.Net.Http.Formatting", "System.Web.Http",`
+    @(  "CuttingEdge.Conditions",
+        "Microsoft.Owin",
+        "Newtonsoft.Json",
+        "Owin",
+        "OwinHttpMessageHandler",
+        "System.Net.Http.Formatting",
+        "System.Web.Http",`
         "System.Web.Http.Owin") |% { $inputDlls = "$inputDlls $dllDir\$_.dll" }
     Invoke-Expression "$ilmergePath /targetplatform:v4 /internalize /allowDup /target:library /log /out:$mergedDir\Cedar.CommandHandling.Http.dll $inputDlls"
 }
@@ -65,7 +70,7 @@ task CompileJs -depends RestoreNpm {
 
     try {
             Exec {
-                & $node_path $gulp_path "compile" --outdir=$output_directory
+                & $nodePath $gulpPath "compile" --outdir=$buildOutputDir
             }
         }
         catch [Exception] {
@@ -80,7 +85,7 @@ task TestJs {
 
     try {
             Exec {
-                & $node_path $karma_path start --single-run --outdir=$output_directory
+                & $nodePath $karmaPath start --single-run --outdir=$buildOutputDir
             }
         }
         catch [Exception] {
@@ -91,9 +96,9 @@ task TestJs {
 }
 
 task RestoreNpm -depends RestoreNuget {
-    $env:Path = $node_path + ";" + $env:Path
+    $env:Path = $nodePath + ";" + $env:Path
     pushd $srcDir
-    exec { & $npm_path install --registry $npm_registry }
+    & $npmPath install --registry $npm_registry
     popd
 }
 
@@ -117,4 +122,45 @@ function Get-PackageConfigs {
     $packages = gci $srcDir -Recurse "packages.config" -ea SilentlyContinue
     $customPachage = gci $srcDir -Recurse "packages.*.config" -ea SilentlyContinue
     $packages + $customPachage  | foreach-object { $_.FullName }
+}
+
+function FindTool {
+	param(
+		[string]$name,
+		[string]$packageDir
+	)
+
+	$result = Get-ChildItem "$packageDir\$name" | Select-Object -First 1
+
+	return $result.FullName
+}
+
+function Get-Version
+{
+	param
+	(
+		[string]$assemblyInfoFilePath
+	)
+	Write-Host "path $assemblyInfoFilePath"
+	$pattern = '(?<=^\[assembly\: AssemblyVersion\(\")(?<versionString>\d+\.\d+\.\d+\.\d+)(?=\"\))'
+	$assmblyInfoContent = Get-Content $assemblyInfoFilePath
+	return $assmblyInfoContent | Select-String -Pattern $pattern | Select -expand Matches |% {$_.Groups['versionString'].Value}
+}
+
+function Update-Version
+{
+	param
+    (
+		[string]$version,
+		[string]$assemblyInfoFilePath
+	)
+
+	$newVersion = 'AssemblyVersion("' + $version + '")';
+	$newFileVersion = 'AssemblyFileVersion("' + $version + '")';
+	$tmpFile = $assemblyInfoFilePath + ".tmp"
+
+	Get-Content $assemblyInfoFilePath |
+		%{$_ -replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $newFileVersion }  | Out-File -Encoding UTF8 $tmpFile
+
+	Move-Item $tmpFile $assemblyInfoFilePath -force
 }
