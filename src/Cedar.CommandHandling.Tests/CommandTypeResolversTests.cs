@@ -4,7 +4,7 @@ namespace Cedar.Commands.CommandTypeResolversTests
     using System;
     using Cedar.CommandHandling.Http.TypeResolution;
     using FluentAssertions;
-    using Xunit.Extensions;
+    using Xunit;
 
     public class FullNameWithUnderscoreVersionSuffixTests
     {

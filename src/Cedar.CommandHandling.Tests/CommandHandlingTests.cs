@@ -9,11 +9,16 @@
     using Cedar.CommandHandling.Http;
     using FluentAssertions;
     using Xunit;
-    using Xunit.Extensions;
 
-    public class CommandHandlingTests : IUseFixture<CommandHandlingFixture>
+    public class CommandHandlingTests : IClassFixture<CommandHandlingFixture>
     {
         private CommandHandlingFixture _fixture;
+
+        public CommandHandlingTests(CommandHandlingFixture commandHandlingFixture)
+        {
+            _fixture = commandHandlingFixture;
+        }
+
 
         [Fact]
         public void When_put_valid_command_then_should_not_throw()
@@ -143,11 +148,6 @@
 
                 response.StatusCode.Should().Be(HttpStatusCode.UnsupportedMediaType);
             }
-        }
-
-        public void SetFixture(CommandHandlingFixture data)
-        {
-            _fixture = data;
         }
     }
 }
