@@ -20,6 +20,17 @@ properties {
     $script:errorOccured    = $false
 }
 
+TaskSetup {
+    $taskName = $($psake.context.Peek().currentTaskName)
+    TeamCity-OpenBlock $taskName
+    TeamCity-ReportBuildProgress "Running task $taskName"
+}
+
+TaskTearDown {
+    $taskName = $($psake.context.Peek().currentTaskName)
+    TeamCity-CloseBlock $taskName
+}
+
 task default -depends Clean, UpdateVersion, RunTests, CreateNuGetPackages, AssertBuildResult
 
 task Clean {
@@ -126,42 +137,42 @@ function Get-PackageConfigs {
 }
 
 function FindTool {
-	param(
-		[string]$name,
-		[string]$packageDir
-	)
+    param(
+        [string]$name,
+        [string]$packageDir
+    )
 
-	$result = Get-ChildItem "$packageDir\$name" | Select-Object -First 1
+    $result = Get-ChildItem "$packageDir\$name" | Select-Object -First 1
 
-	return $result.FullName
+    return $result.FullName
 }
 
 function Get-Version
 {
-	param
-	(
-		[string]$assemblyInfoFilePath
-	)
-	Write-Host "path $assemblyInfoFilePath"
-	$pattern = '(?<=^\[assembly\: AssemblyVersion\(\")(?<versionString>\d+\.\d+\.\d+\.\d+)(?=\"\))'
-	$assmblyInfoContent = Get-Content $assemblyInfoFilePath
-	return $assmblyInfoContent | Select-String -Pattern $pattern | Select -expand Matches |% {$_.Groups['versionString'].Value}
+    param
+    (
+        [string]$assemblyInfoFilePath
+    )
+    Write-Host "path $assemblyInfoFilePath"
+    $pattern = '(?<=^\[assembly\: AssemblyVersion\(\")(?<versionString>\d+\.\d+\.\d+\.\d+)(?=\"\))'
+    $assmblyInfoContent = Get-Content $assemblyInfoFilePath
+    return $assmblyInfoContent | Select-String -Pattern $pattern | Select -expand Matches |% {$_.Groups['versionString'].Value}
 }
 
 function Update-Version
 {
-	param
+    param
     (
-		[string]$version,
-		[string]$assemblyInfoFilePath
-	)
+        [string]$version,
+        [string]$assemblyInfoFilePath
+    )
 
-	$newVersion = 'AssemblyVersion("' + $version + '")';
-	$newFileVersion = 'AssemblyFileVersion("' + $version + '")';
-	$tmpFile = $assemblyInfoFilePath + ".tmp"
+    $newVersion = 'AssemblyVersion("' + $version + '")';
+    $newFileVersion = 'AssemblyFileVersion("' + $version + '")';
+    $tmpFile = $assemblyInfoFilePath + ".tmp"
 
-	Get-Content $assemblyInfoFilePath |
-		%{$_ -replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $newFileVersion }  | Out-File -Encoding UTF8 $tmpFile
+    Get-Content $assemblyInfoFilePath |
+        %{$_ -replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $newFileVersion }  | Out-File -Encoding UTF8 $tmpFile
 
-	Move-Item $tmpFile $assemblyInfoFilePath -force
+    Move-Item $tmpFile $assemblyInfoFilePath -force
 }
