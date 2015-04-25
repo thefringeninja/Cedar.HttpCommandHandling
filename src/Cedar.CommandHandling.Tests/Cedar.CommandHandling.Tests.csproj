@@ -83,6 +83,9 @@
     <Compile Include="CommandHandlingSettingsTests.cs" />
     <Compile Include="CommandHandlingTests.cs" />
     <Compile Include="CommandTypeResolversTests.cs" />
+    <Compile Include="DefaultGetEventStoreJsonSerializer.cs" />
+    <Compile Include="HttpProblemDetailsTests.cs" />
+    <Compile Include="PredispatchTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskExtensionsTests.cs" />
   </ItemGroup>
