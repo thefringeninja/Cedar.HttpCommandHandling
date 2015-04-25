@@ -77,6 +77,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CommandHandlerModuleTests.cs" />
+    <Compile Include="CommandHandlerResolverTests.cs" />
     <Compile Include="CommandHandlingFixture.cs" />
     <Compile Include="CommandHandlingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
