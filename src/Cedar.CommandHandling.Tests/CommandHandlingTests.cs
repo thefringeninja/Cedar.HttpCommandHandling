@@ -20,7 +20,7 @@
         }
 
 
-        /*[Fact]
+        [Fact]
         public void When_put_valid_command_then_should_not_throw()
         {
             using (var client = _fixture.CreateHttpClient())
@@ -97,7 +97,7 @@
                 exception.ProblemDetails.Title.Should().NotBeNull();
                 exception.ProblemDetails.Type.Should().NotBeNull();
             }
-        }*/
+        }
 
         [Fact]
         public void When_put_command_whose_handler_throws_custom_problem_details_exception_then_should_throw()
@@ -119,7 +119,7 @@
             }
         }
 
-        /*[Fact]
+        [Fact]
         public void When_command_endpoint_is_not_found_then_should_throw()
         {
             using (var client = _fixture.CreateHttpClient())
@@ -148,6 +148,6 @@
 
                 response.StatusCode.Should().Be(HttpStatusCode.UnsupportedMediaType);
             }
-        }*/
+        }
     }
 }
