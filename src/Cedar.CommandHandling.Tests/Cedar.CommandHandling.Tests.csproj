@@ -77,16 +77,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="CommandHandlerModuleTests.cs" />
-    <Compile Include="CommandHandlerResolverTests.cs" />
-    <Compile Include="CommandHandlingSettingsTests.cs" />
-    <Compile Include="CommandTypeResolversTests.cs" />
-    <Compile Include="HttpProblemDetailsTests.cs" />
-    <Compile Include="DefaultGetEventStoreJsonSerializer.cs" />
-    <Compile Include="CommandHandlingTests.cs" />
-    <Compile Include="PredispatchTests.cs" />
-    <Compile Include="TaskExtensionsTests.cs" />
     <Compile Include="CommandHandlingFixture.cs" />
+    <Compile Include="CommandHandlingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
