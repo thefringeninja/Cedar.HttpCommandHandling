@@ -14,7 +14,7 @@ if(Test-Path Env:\TEAMCITY_PROJECT_NAME){
 
 "Build number $buildNumber"
 
-src\.nuget\nuget.exe i src\.nuget\packages.config -o src\packages
+src\.nuget\nuget.exe i src\.nuget\packages.config -o src\packages -source http://168.62.110.126/api/v2
 
 Import-Module .\src\packages\psake.4.4.1\tools\psake.psm1
 Import-Module .\teamcity.psm1
