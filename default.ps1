@@ -43,7 +43,7 @@ task RestoreNuget {
     "Using nuget source $nugetSource"
     Get-PackageConfigs |% {
         "Restoring " + $_
-        &$nugetPath install $_ -o "$srcDir\packages" -configfile $_
+        &$nugetPath install $_ -o "$srcDir\packages" -configfile $_ -source $nugetSource
     }
 }
 
@@ -74,7 +74,7 @@ task ILMerge -depends Compile {
         "Owin",
         "OwinHttpMessageHandler",
         "System.Net.Http.Formatting",
-        "System.Web.Http",
+        "System.Web.Http",`
         "System.Web.Http.Owin") |% { $inputDlls = "$inputDlls $dllDir\$_.dll" }
     Invoke-Expression "$ilmergePath /targetplatform:v4 /internalize /allowDup /target:library /log /out:$mergedDir\Cedar.CommandHandling.Http.dll $inputDlls"
 }
