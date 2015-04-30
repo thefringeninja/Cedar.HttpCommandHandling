@@ -5,7 +5,11 @@ param(
 
 if(Test-Path Env:\APPVEYOR_BUILD_NUMBER){
     $buildNumber = [int]$Env:APPVEYOR_BUILD_NUMBER
-    Write-Host "Using APPVEYOR_BUILD_NUMBER"
+    Write-Output "Using APPVEYOR_BUILD_NUMBER"
+}
+
+if(Test-Path Env:\TEAMCITY_PROJECT_NAME){
+    Write-Output "Building in TeamCity"
 }
 
 "Build number $buildNumber"

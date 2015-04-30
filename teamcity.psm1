@@ -207,5 +207,7 @@ function TeamCity-WriteServiceMessage([string]$messageName, $messageAttributesHa
 		$messageAttributesString = ("'{0}'" -f (escape $messageAttributesHashOrSingleValue))
 	}
 
-	Write-Output "##teamcity[$messageName $messageAttributesString]"
+	if(Test-Path env:\TEAMCITY_PROJECT_NAME){
+		Write-Output "##teamcity[$messageName $messageAttributesString]"
+	}
 }
