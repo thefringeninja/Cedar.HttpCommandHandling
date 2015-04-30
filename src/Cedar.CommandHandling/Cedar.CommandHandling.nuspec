@@ -8,9 +8,9 @@
         <projectUrl>https://github.com/damianh/Cedar.CommandHandling</projectUrl>
         <licenseUrl>https://github.com/damianh/Cedar.CommandHandling/blob/master/LICENSE</licenseUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <title>Cedar - HTTP Command Handling Middleware</title>
+        <title>Cedar - Command Handling</title>
         <description>
-            Library to assist in . Typically used in CQS and CQRS applications. Supports HTTP Problem Details.
+            Library to assist with handling commands. Typically used in CQS and CQRS applications. Supports HTTP Problem Details.
         </description>
         <tags>cqrs event-sourcing domain-driven-design</tags>
         <frameworkAssemblies />

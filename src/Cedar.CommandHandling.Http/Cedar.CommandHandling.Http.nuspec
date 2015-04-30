@@ -8,9 +8,9 @@
         <projectUrl>https://github.com/damianh/Cedar.CommandHandling</projectUrl>
         <licenseUrl>https://github.com/damianh/Cedar.CommandHandling/blob/master/LICENSE</licenseUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <title>Cedar - HTTP Command Handling Middleware</title>
+        <title>Cedar - Command Handling Middleware</title>
         <description>
-            OWIN middleware to assist is handling commands sent over HTTP. Typically used in CQS and CQRS applications. Supports HTTP Problem Details.
+            OWIN middleware to assist with handling commands sent over HTTP. Typically used in CQS and CQRS applications. Supports HTTP Problem Details.
         </description>
         <tags>cqrs event-sourcing domain-driven-design owin middleware</tags>
         <frameworkAssemblies />
