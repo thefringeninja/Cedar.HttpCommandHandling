@@ -18,7 +18,6 @@ namespace Cedar.CommandHandling.Http
     {
         private static readonly MethodInfo DispatchCommandMethodInfo = typeof(CommandHandlerController)
             .GetMethod("DispatchCommand", BindingFlags.Static | BindingFlags.NonPublic);
-        //private Dictionary<Type, Func<Guid, ClaimsPrincipal>> 
 
         private readonly CommandHandlingSettings _settings;
         private readonly Predispatch _predispatch;
@@ -56,7 +55,7 @@ namespace Cedar.CommandHandling.Http
 
             object command = await DeserializeCommand(commandType);
             MethodInfo dispatchCommandMethod = DispatchCommandMethodInfo.MakeGenericMethod(command.GetType());
-            
+
             Func<Task> func = async () => await ((Task)dispatchCommandMethod.Invoke(null,
                new[]
                 {
