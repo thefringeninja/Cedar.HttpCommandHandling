@@ -13,6 +13,7 @@ properties {
     $xunitRunner            = FindTool "xunit.runner.console.*\tools\xunit.console.exe" "$packagesDir"
     $npmDirectory           = "$srcDir\node_modules"
     $nugetPath              = "$srcDir\.nuget\nuget.exe"
+    $nugetSource            = "http://www.nuget.org/api/v2"
     $nodePath               = FindTool "Node.js.*\node.exe" "$packagesDir"
     $npmPath                = FindTool "Npm.js.*\tools\npm.cmd" "$packagesDir"
     $gulpPath               = "$npmDirectory\gulp\bin\gulp.js"
@@ -39,9 +40,10 @@ task Clean {
 }
 
 task RestoreNuget {
+    "Using nuget source $nugetSource"
     Get-PackageConfigs |% {
         "Restoring " + $_
-        &$nugetPath install $_ -o "$srcDir\packages" -configfile $_
+        &$nugetPath install $_ -o "$srcDir\packages" -configfile $_ -source $nugetSource
     }
 }
 
