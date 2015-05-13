@@ -73,6 +73,7 @@
     <Compile Include="Http\CommandHandlerController.cs" />
     <Compile Include="Http\CommandHandlingSettings.cs" />
     <Compile Include="CommandMessageExtensions.cs" />
+    <Compile Include="Http\DeserializeCommand.cs" />
     <Compile Include="Http\MapProblemDetailsFromException.cs" />
     <Compile Include="Http\MidFuncExtensions.cs" />
     <Compile Include="Http\HttpProblemDetailsExceptionFilterAttribute.cs" />

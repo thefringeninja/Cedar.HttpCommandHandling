@@ -11,6 +11,7 @@ namespace Cedar.CommandHandling.Http
         private readonly ResolveCommandType _resolveCommandType;
         private ParseMediaType _parseMediaType = MediaTypeParsers.AllCombined;
         private MapProblemDetailsFromException _mapProblemDetailsFromException;
+        private DeserializeCommand _deserializeCommand;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CommandHandlingSettings"/> class using
@@ -32,6 +33,8 @@ namespace Cedar.CommandHandling.Http
 
             _handlerResolver = handlerResolver;
             _resolveCommandType = resolveCommandType;
+            _deserializeCommand =
+                (body, type) => SimpleJson.DeserializeObject(body, type, CommandClient.JsonSerializerStrategy);
         }
 
         public MapProblemDetailsFromException MapProblemDetailsFromException
@@ -68,5 +71,15 @@ namespace Cedar.CommandHandling.Http
         }
 
         public Predispatch OnPredispatch { get; set; }
+
+        public DeserializeCommand DeserializeCommand
+        {
+            get { return _deserializeCommand; }
+            set
+            {
+                Condition.Requires(value, "value").IsNotNull();
+                _deserializeCommand = value;
+            }
+        }
     }
 }
