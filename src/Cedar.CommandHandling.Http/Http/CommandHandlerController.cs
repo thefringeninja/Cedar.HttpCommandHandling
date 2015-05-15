@@ -8,9 +8,7 @@ namespace Cedar.CommandHandling.Http
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using Cedar.CommandHandling;
     using Cedar.CommandHandling.Http.Logging;
-    using Cedar.CommandHandling.Http.Properties;
     using Cedar.CommandHandling.Http.TypeResolution;
 
     internal class CommandHandlerController : ApiController
@@ -82,7 +80,7 @@ namespace Cedar.CommandHandling.Http
         private async Task<object> DeserializeCommand(Type commandType)
         {
             var commandString = await Request.Content.ReadAsStringAsync();
-            return SimpleJson.DeserializeObject(commandString, commandType, CommandClient.JsonSerializerStrategy);
+            return _settings.DeserializeCommand(commandString, commandType);
         }
     }
 }
