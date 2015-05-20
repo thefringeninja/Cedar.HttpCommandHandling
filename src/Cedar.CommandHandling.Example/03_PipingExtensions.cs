@@ -9,6 +9,8 @@ namespace Cedar.CommandHandling.Example.PipingExtensions
     using System;
     using System.Threading.Tasks;
     using Cedar.CommandHandling;
+    using FluentValidation;
+    using FluentValidation.Results;
 
     public class Command1
     {}
@@ -35,6 +37,17 @@ namespace Cedar.CommandHandling.Example.PipingExtensions
                 return next(commandMessage, ct);
             });
         }
+
+        internal static ICommandHandlerBuilder<CommandMessage<TMessage>> Validate<TMessage>(
+            this ICommandHandlerBuilder<CommandMessage<TMessage>> commandHandlerBuilder,
+            Func<TMessage, ValidationResult> validator)
+        {
+            return commandHandlerBuilder.Pipe(next => (commandMessage, ct) =>
+            {
+                validator(commandMessage.Command);
+                return next(commandMessage, ct);
+            });
+        }
     }
 
     public class MyCommandModule : CommandHandlerModule
@@ -43,11 +56,22 @@ namespace Cedar.CommandHandling.Example.PipingExtensions
         {
             For<Command1>()
                 .RequireRole("admin") // 4. Use the extension
+                .Validate(Command1Validator.Instance.Validate)
                 .Handle((commandMessage, ct) => Task.FromResult(0));
 
             For<Command2>()
                 .RequireRole("user")
                 .Handle((commandMessage, ct) => Task.FromResult(0));
+        }
+    }
+
+    public class Command1Validator : AbstractValidator<Command1>
+    {
+        public static readonly Command1Validator Instance = new Command1Validator();
+
+        public Command1Validator()
+        {
+            // RuleFor(cmd => )
         }
     }
 }
