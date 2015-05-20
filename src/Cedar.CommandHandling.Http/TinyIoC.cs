@@ -66,7 +66,7 @@
 #endif
 
 #endregion
-namespace Cedar.HttpCommandHandling.TinyIoC
+namespace Cedar.CommandHandling.TinyIoC
 {
     using System;
     using System.Collections.Generic;
