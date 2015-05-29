@@ -12,8 +12,6 @@ namespace Cedar.CommandHandling.Http
         private DeserializeCommand _deserializeCommand;
         private MapProblemDetailsFromException _mapProblemDetailsFromException;
         private ParseMediaType _parseMediaType = MediaTypeParsers.AllCombined;
-        private MapProblemDetailsFromException _mapProblemDetailsFromException;
-        private DeserializeCommand _deserializeCommand;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CommandHandlingSettings"/> class using
@@ -35,8 +33,8 @@ namespace Cedar.CommandHandling.Http
 
             _handlerResolver = handlerResolver;
             _resolveCommandType = resolveCommandType;
-            _deserializeCommand =
-                (body, type) => SimpleJson.DeserializeObject(body, type, CommandClient.JsonSerializerStrategy);
+            _deserializeCommand = CatchDeserializationExceptions(
+                (body, type) => SimpleJson.DeserializeObject(body, type, CommandClient.JsonSerializerStrategy));
         }
 
         public MapProblemDetailsFromException MapProblemDetailsFromException
@@ -80,8 +78,32 @@ namespace Cedar.CommandHandling.Http
             set
             {
                 Condition.Requires(value, "value").IsNotNull();
-                _deserializeCommand = value;
+                _deserializeCommand = CatchDeserializationExceptions(value);
             }
+        }
+
+        private static DeserializeCommand CatchDeserializationExceptions(DeserializeCommand deserializeCommand)
+        {
+            return (commandString, type) =>
+            {
+                try
+                {
+                    return deserializeCommand(commandString, type);
+                }
+                catch(Exception ex)
+                {
+                    if(ex is IHttpProblemDetailException)
+                    {
+                        throw;
+                    }
+                    throw new HttpProblemDetailsException<HttpProblemDetails>(new HttpProblemDetails
+                    {
+                        Title = "Error occured deserializing command.",
+                        Status = 400,
+                        Detail = ex.Message
+                    });
+                }
+            };
         }
     }
 }
