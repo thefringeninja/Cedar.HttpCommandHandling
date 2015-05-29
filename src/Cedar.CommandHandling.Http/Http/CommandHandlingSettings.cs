@@ -1,6 +1,6 @@
 namespace Cedar.CommandHandling.Http
 {
-    using Cedar.CommandHandling;
+    using System;
     using Cedar.CommandHandling.Http.Properties;
     using Cedar.CommandHandling.Http.TypeResolution;
     using CuttingEdge.Conditions;
@@ -9,6 +9,8 @@ namespace Cedar.CommandHandling.Http
     {
         private readonly ICommandHandlerResolver _handlerResolver;
         private readonly ResolveCommandType _resolveCommandType;
+        private DeserializeCommand _deserializeCommand;
+        private MapProblemDetailsFromException _mapProblemDetailsFromException;
         private ParseMediaType _parseMediaType = MediaTypeParsers.AllCombined;
         private MapProblemDetailsFromException _mapProblemDetailsFromException;
         private DeserializeCommand _deserializeCommand;
@@ -22,7 +24,7 @@ namespace Cedar.CommandHandling.Http
             : this(
                 handlerResolver,
                 CommandTypeResolvers.FullNameWithUnderscoreVersionSuffix(handlerResolver.KnownCommandTypes))
-        { } 
+        {}
 
         public CommandHandlingSettings(
             [NotNull] ICommandHandlerResolver handlerResolver,
