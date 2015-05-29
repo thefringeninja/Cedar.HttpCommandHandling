@@ -1,6 +1,6 @@
 namespace Cedar.CommandHandling.Http
 {
-    using Cedar.CommandHandling;
+    using System;
     using Cedar.CommandHandling.Http.Properties;
     using Cedar.CommandHandling.Http.TypeResolution;
     using CuttingEdge.Conditions;
@@ -9,9 +9,9 @@ namespace Cedar.CommandHandling.Http
     {
         private readonly ICommandHandlerResolver _handlerResolver;
         private readonly ResolveCommandType _resolveCommandType;
-        private ParseMediaType _parseMediaType = MediaTypeParsers.AllCombined;
-        private MapProblemDetailsFromException _mapProblemDetailsFromException;
         private DeserializeCommand _deserializeCommand;
+        private MapProblemDetailsFromException _mapProblemDetailsFromException;
+        private ParseMediaType _parseMediaType = MediaTypeParsers.AllCombined;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CommandHandlingSettings"/> class using
@@ -22,7 +22,7 @@ namespace Cedar.CommandHandling.Http
             : this(
                 handlerResolver,
                 CommandTypeResolvers.FullNameWithUnderscoreVersionSuffix(handlerResolver.KnownCommandTypes))
-        { } 
+        {}
 
         public CommandHandlingSettings(
             [NotNull] ICommandHandlerResolver handlerResolver,
@@ -33,8 +33,8 @@ namespace Cedar.CommandHandling.Http
 
             _handlerResolver = handlerResolver;
             _resolveCommandType = resolveCommandType;
-            _deserializeCommand =
-                (body, type) => SimpleJson.DeserializeObject(body, type, CommandClient.JsonSerializerStrategy);
+            _deserializeCommand = CatchDeserializationExceptions(
+                (body, type) => SimpleJson.DeserializeObject(body, type, CommandClient.JsonSerializerStrategy));
         }
 
         public MapProblemDetailsFromException MapProblemDetailsFromException
@@ -78,8 +78,32 @@ namespace Cedar.CommandHandling.Http
             set
             {
                 Condition.Requires(value, "value").IsNotNull();
-                _deserializeCommand = value;
+                _deserializeCommand = CatchDeserializationExceptions(value);
             }
+        }
+
+        private static DeserializeCommand CatchDeserializationExceptions(DeserializeCommand deserializeCommand)
+        {
+            return (commandString, type) =>
+            {
+                try
+                {
+                    return deserializeCommand(commandString, type);
+                }
+                catch(Exception ex)
+                {
+                    if(ex is IHttpProblemDetailException)
+                    {
+                        throw;
+                    }
+                    throw new HttpProblemDetailsException<HttpProblemDetails>(new HttpProblemDetails
+                    {
+                        Title = "Error occured deserializing command.",
+                        Status = 400,
+                        Detail = ex.Message
+                    });
+                }
+            };
         }
     }
 }
