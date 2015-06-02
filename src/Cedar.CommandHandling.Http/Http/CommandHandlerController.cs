@@ -2,6 +2,7 @@ namespace Cedar.CommandHandling.Http
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Net;
     using System.Net.Http;
     using System.Security.Claims;
@@ -10,16 +11,21 @@ namespace Cedar.CommandHandling.Http
     using System.Web.Http;
     using Cedar.CommandHandling.Http.Logging;
     using Cedar.CommandHandling.Http.TypeResolution;
+    using Microsoft.IO;
 
     internal class CommandHandlerController : ApiController
     {
         private static readonly ILog s_logger = LogProvider.For<CommandHandlerController>();
         private readonly CommandHandlingSettings _settings;
+        private readonly RecyclableMemoryStreamManager _recyclableMemoryStreamManager;
         private readonly Predispatch _predispatch;
 
-        public CommandHandlerController(CommandHandlingSettings settings)
+        public CommandHandlerController(
+            CommandHandlingSettings settings,
+            RecyclableMemoryStreamManager recyclableMemoryStreamManager)
         {
             _settings = settings;
+            _recyclableMemoryStreamManager = recyclableMemoryStreamManager;
 
             var temp = _settings.OnPredispatch ?? ((_, __) => { });
             _predispatch = (metadata, headers) =>
@@ -79,8 +85,13 @@ namespace Cedar.CommandHandling.Http
 
         private async Task<object> DeserializeCommand(Type commandType)
         {
-            var commandString = await Request.Content.ReadAsStringAsync();
-            return _settings.DeserializeCommand(commandString, commandType);
+            var memoryStream = _recyclableMemoryStreamManager.GetStream(); // StreamReader below will do the dispose
+            await Request.Content.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+            using (var reader = new StreamReader(memoryStream))
+            {
+                return _settings.DeserializeCommand(reader, commandType);
+            }
         }
     }
 }

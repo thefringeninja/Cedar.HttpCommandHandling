@@ -34,7 +34,11 @@ namespace Cedar.CommandHandling.Http
             _handlerResolver = handlerResolver;
             _resolveCommandType = resolveCommandType;
             _deserializeCommand = CatchDeserializationExceptions(
-                (body, type) => SimpleJson.DeserializeObject(body, type, CommandClient.JsonSerializerStrategy));
+                (commandReader, type) =>
+                {
+                    var body = commandReader.ReadToEnd(); // Will cause LOH problems if command json > 85KB
+                    return SimpleJson.DeserializeObject(body, type, CommandClient.JsonSerializerStrategy);
+                });
         }
 
         public MapProblemDetailsFromException MapProblemDetailsFromException
@@ -72,6 +76,14 @@ namespace Cedar.CommandHandling.Http
 
         public Predispatch OnPredispatch { get; set; }
 
+        /// <summary>
+        /// Gets or sets the deserialize command delegate for custom deserialization. NOTE: if you expect that you 
+        /// may have commands whose JSON representation exceeds 85KB, it is highly recommended that you use set this
+        /// using Newtonsoft.Json or similar.
+        /// </summary>
+        /// <value>
+        /// The deserialize command.
+        /// </value>
         public DeserializeCommand DeserializeCommand
         {
             get { return _deserializeCommand; }
@@ -84,11 +96,11 @@ namespace Cedar.CommandHandling.Http
 
         private static DeserializeCommand CatchDeserializationExceptions(DeserializeCommand deserializeCommand)
         {
-            return (commandString, type) =>
+            return (commandReader, type) =>
             {
                 try
                 {
-                    return deserializeCommand(commandString, type);
+                    return deserializeCommand(commandReader, type);
                 }
                 catch(Exception ex)
                 {
