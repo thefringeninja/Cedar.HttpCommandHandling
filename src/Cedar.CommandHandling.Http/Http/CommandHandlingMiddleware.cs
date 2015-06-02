@@ -9,6 +9,7 @@
     using System.Web.Http.Dispatcher;
     using Cedar.CommandHandling.TinyIoC;
     using CuttingEdge.Conditions;
+    using Microsoft.IO;
     using Microsoft.Owin.Builder;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
@@ -49,6 +50,7 @@
         {
             var container = new TinyIoCContainer();
             container.Register(settings);
+            container.Register(new RecyclableMemoryStreamManager());
 
             var config = new HttpConfiguration
             {

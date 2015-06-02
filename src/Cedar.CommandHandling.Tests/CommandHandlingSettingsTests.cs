@@ -1,6 +1,7 @@
 ﻿namespace Cedar.CommandHandling
 {
     using System;
+    using System.IO;
     using Cedar.CommandHandling.Http;
     using Cedar.CommandHandling.Http.TypeResolution;
     using FakeItEasy;
@@ -25,7 +26,13 @@
         {
             var sut = new CommandHandlingSettings(A.Fake<ICommandHandlerResolver>(), A.Fake<ResolveCommandType>());
 
-            Action act = () => sut.DeserializeCommand("xyz", typeof(CommandHandlingSettingsTests));
+            Action act = () =>
+            {
+                using(var reader = new StringReader("xyx"))
+                {
+                    sut.DeserializeCommand(reader, typeof(CommandHandlingSettingsTests));
+                }
+            };
 
             act.ShouldThrowExactly<HttpProblemDetailsException<HttpProblemDetails>>()
                 .And.ProblemDetails.Status.Should().Be(400);
@@ -39,7 +46,13 @@
                 DeserializeCommand = (_, __) => { throw new Exception(); }
             };
 
-            Action act = () => sut.DeserializeCommand("xyz", typeof(CommandHandlingSettingsTests));
+            Action act = () =>
+            {
+                using(var reader = new StringReader("xyx"))
+                {
+                    sut.DeserializeCommand(reader, typeof(CommandHandlingSettingsTests));
+                }
+            };
 
             act.ShouldThrowExactly<HttpProblemDetailsException<HttpProblemDetails>>();
         }
@@ -56,7 +69,10 @@
             Exception thrown = null;
             try
             {
-                sut.DeserializeCommand("xyz", typeof(CommandHandlingSettingsTests));
+                using (var reader = new StringReader("xyx"))
+                {
+                    sut.DeserializeCommand(reader, typeof(CommandHandlingSettingsTests));
+                }
             }
             catch(Exception ex)
             {

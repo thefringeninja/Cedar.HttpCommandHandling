@@ -1,8 +1,9 @@
 namespace Cedar.CommandHandling.Http
 {
     using System;
+    using System.IO;
 
     public delegate object DeserializeCommand(
-        string commandString,
+        TextReader commandReader,
         Type commandType);
 }

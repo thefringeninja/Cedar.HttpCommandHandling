@@ -34,7 +34,11 @@ namespace Cedar.CommandHandling.Http
             _handlerResolver = handlerResolver;
             _resolveCommandType = resolveCommandType;
             _deserializeCommand = CatchDeserializationExceptions(
-                (body, type) => SimpleJson.DeserializeObject(body, type, CommandClient.JsonSerializerStrategy));
+                (commandReader, type) =>
+                {
+                    var body = commandReader.ReadToEnd(); // Will cause LOH problems if command json > 85KB
+                    return SimpleJson.DeserializeObject(body, type, CommandClient.JsonSerializerStrategy);
+                });
         }
 
         public MapProblemDetailsFromException MapProblemDetailsFromException
@@ -84,11 +88,11 @@ namespace Cedar.CommandHandling.Http
 
         private static DeserializeCommand CatchDeserializationExceptions(DeserializeCommand deserializeCommand)
         {
-            return (commandString, type) =>
+            return (commandReader, type) =>
             {
                 try
                 {
-                    return deserializeCommand(commandString, type);
+                    return deserializeCommand(commandReader, type);
                 }
                 catch(Exception ex)
                 {
