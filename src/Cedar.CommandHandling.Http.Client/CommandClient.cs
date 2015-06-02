@@ -1,6 +1,7 @@
 ﻿namespace Cedar.CommandHandling.Http
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -10,6 +11,12 @@
     public static class CommandClient
     {
         private static readonly ILog Logger = LogProvider.GetLogger(typeof(CommandClient).Name);
+        private static SerializeCommand DefaultSerializeCommand = (textWriter, command) =>
+        {
+            // Will be problem for LOH if json string is > 85KB
+            string commandJson = SimpleJson.SerializeObject(command, JsonSerializerStrategy);
+            textWriter.Write(commandJson);
+        };
         internal static readonly ProductInfoHeaderValue UserAgent;
         internal static readonly IJsonSerializerStrategy JsonSerializerStrategy = new CamelCasingSerializerStrategy();
         internal const string HttpProblemDetailsClrType = "Cedar-HttpProblemDetails-ClrType";
@@ -18,8 +25,9 @@
         static CommandClient()
         {
             var type = typeof(CommandClient);
-            var version = type.GetAssembly().GetName().Version;
-            UserAgent = new ProductInfoHeaderValue(type.FullName, version.Major + "." + version.Minor);
+            var assemblyVersion = type.GetAssembly().GetName().Version;
+            string version = "{0}.{1}".FormatWith(assemblyVersion.Major, assemblyVersion.Minor);
+            UserAgent = new ProductInfoHeaderValue(type.FullName, version);
         }
 
         public static async Task PutCommand(
@@ -27,10 +35,11 @@
             object command,
             Guid commandId,
             string basePath = null,
-            Action<HttpRequestMessage> customizeRequest = null)
+            Action<HttpRequestMessage> customizeRequest = null,
+            SerializeCommand serializeCommand = null)
         {
             basePath = basePath ?? string.Empty;
-            var request = CreatePutCommandRequest(command, commandId, basePath);
+            var request = CreatePutCommandRequest(command, commandId, basePath, serializeCommand);
             if(customizeRequest != null)
             {
                 customizeRequest(request);
@@ -43,21 +52,30 @@
             await response.EnsureCommandSuccess();
         }
 
-        public static HttpRequestMessage CreatePutCommandRequest(object command, Guid commandId, string basePath)
+        public static HttpRequestMessage CreatePutCommandRequest(
+            object command,
+            Guid commandId,
+            string basePath,
+            SerializeCommand serializeCommand = null)
         {
-            string commandJson = SimpleJson.SerializeObject(command, JsonSerializerStrategy);
-            var httpContent = new StringContent(commandJson);
-            httpContent.Headers.ContentType =
-                MediaTypeHeaderValue.Parse("application/vnd.{0}+json".FormatWith(command.GetType().FullName.ToLowerInvariant()));
-
-            var request = new HttpRequestMessage(HttpMethod.Put, basePath + "/{0}".FormatWith(commandId))
+            serializeCommand = serializeCommand ?? DefaultSerializeCommand;
+            using(var writer = new StringWriter())
             {
-                Content = httpContent
-            };
-            request.Headers.UserAgent.Add(UserAgent);
-            request.Headers.Accept.Add(HttpProblemDetails.MediaTypeWithQualityHeaderValue);
+                serializeCommand(writer, command);
 
-            return request;
+                var httpContent = new StringContent(writer.ToString());
+                httpContent.Headers.ContentType =
+                    MediaTypeHeaderValue.Parse("application/vnd.{0}+json".FormatWith(command.GetType().FullName.ToLowerInvariant()));
+
+                var request = new HttpRequestMessage(HttpMethod.Put, basePath + "/{0}".FormatWith(commandId))
+                {
+                    Content = httpContent
+                };
+                request.Headers.UserAgent.Add(UserAgent);
+                request.Headers.Accept.Add(HttpProblemDetails.MediaTypeWithQualityHeaderValue);
+
+                return request;
+            }
         }
 
         public static async Task EnsureCommandSuccess(this HttpResponseMessage response)
