@@ -69,6 +69,7 @@ task ILMerge -depends Compile {
     $dllDir = "$srcDir\Cedar.CommandHandling.Http\bin\Release"
     $inputDlls = "$dllDir\Cedar.CommandHandling.Http.dll"
     @(  "CuttingEdge.Conditions",
+        "Microsoft.IO.RecyclableMemoryStream",
         "Microsoft.Owin",
         "Newtonsoft.Json",
         "Owin",
