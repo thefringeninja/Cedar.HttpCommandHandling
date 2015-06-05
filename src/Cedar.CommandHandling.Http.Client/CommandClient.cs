@@ -11,7 +11,7 @@
     public static class CommandClient
     {
         private static readonly ILog Logger = LogProvider.GetLogger(typeof(CommandClient).Name);
-        private static SerializeCommand DefaultSerializeCommand = (textWriter, command) =>
+        private static readonly SerializeCommand DefaultSerializeCommand = (textWriter, command) =>
         {
             // Will be problem for LOH if json string is > 85KB
             string commandJson = SimpleJson.SerializeObject(command, JsonSerializerStrategy);
