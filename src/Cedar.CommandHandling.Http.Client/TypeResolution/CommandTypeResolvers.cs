@@ -4,7 +4,7 @@ namespace Cedar.CommandHandling.Http.TypeResolution
     using System.Collections.Generic;
     using System.Linq;
     using Cedar.CommandHandling.Http.Properties;
-    using CuttingEdge.Conditions;
+    using EnsureThat;
 
     public static class CommandTypeResolvers
     {
@@ -16,7 +16,7 @@ namespace Cedar.CommandHandling.Http.TypeResolution
         /// <returns>An instance of <see cref="ResolveCommandType"/>.</returns>
         public static ResolveCommandType FullNameWithUnderscoreVersionSuffix([NotNull] IEnumerable<Type> knownCommandTypes)
         {
-            Condition.Requires(knownCommandTypes, "knownCommandTypes").IsNotNull();
+            Ensure.That(knownCommandTypes, "knownCommandTypes").IsNotNull();
 
             var knownTypeDictionary = knownCommandTypes.
                ToDictionary(t => t.FullName.ToLowerInvariant(), t => t);
@@ -41,7 +41,7 @@ namespace Cedar.CommandHandling.Http.TypeResolution
         /// <returns>An instance of <see cref="ResolveCommandType"/>.</returns>
         public static ResolveCommandType FullNameWithVersionSuffix([NotNull] IEnumerable<Type> knownCommandTypes)
         {
-            Condition.Requires(knownCommandTypes, "knownCommandTypes").IsNotNull();
+            Ensure.That(knownCommandTypes, "knownCommandTypes").IsNotNull();
 
             var knownTypeDictionary = knownCommandTypes.
                ToDictionary(t => t.FullName.ToLowerInvariant(), t => t);
@@ -65,7 +65,7 @@ namespace Cedar.CommandHandling.Http.TypeResolution
         /// <returns>An instance of <see cref="ResolveCommandType"/>.</returns>
         public static ResolveCommandType All([NotNull] IEnumerable<Type> knownCommandTypes)
         {
-            Condition.Requires(knownCommandTypes, "knownCommandTypes").IsNotNull();
+            Ensure.That(knownCommandTypes, "knownCommandTypes").IsNotNull();
 
             return (commandName, version) => FullNameWithUnderscoreVersionSuffix(knownCommandTypes)(commandName, version)
                                              ?? FullNameWithVersionSuffix(knownCommandTypes)(commandName, version);

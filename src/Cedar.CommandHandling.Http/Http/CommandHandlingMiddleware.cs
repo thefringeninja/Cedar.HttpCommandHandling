@@ -8,7 +8,7 @@
     using System.Web.Http.Dependencies;
     using System.Web.Http.Dispatcher;
     using Cedar.CommandHandling.TinyIoC;
-    using CuttingEdge.Conditions;
+    using EnsureThat;
     using Microsoft.IO;
     using Microsoft.Owin.Builder;
     using Newtonsoft.Json;
@@ -33,7 +33,7 @@
         /// <returns>An owin middleware function (MidFunc) that represents </returns>
         public static MidFunc HandleCommands(CommandHandlingSettings settings)
         {
-            Condition.Requires(settings, "settings").IsNotNull();
+            Ensure.That(settings, "settings").IsNotNull();
 
             return next =>
             {

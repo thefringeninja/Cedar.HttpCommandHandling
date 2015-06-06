@@ -3,7 +3,7 @@ namespace Cedar.CommandHandling.Http
     using System;
     using Cedar.CommandHandling.Http.Properties;
     using Cedar.CommandHandling.Http.TypeResolution;
-    using CuttingEdge.Conditions;
+    using EnsureThat;
 
     public class CommandHandlingSettings
     {
@@ -28,8 +28,8 @@ namespace Cedar.CommandHandling.Http
             [NotNull] ICommandHandlerResolver handlerResolver,
             [NotNull] ResolveCommandType resolveCommandType)
         {
-            Condition.Requires(handlerResolver, "handlerResolver").IsNotNull();
-            Condition.Requires(resolveCommandType, "ResolveCommandType").IsNotNull();
+            Ensure.That(handlerResolver, "handlerResolver").IsNotNull();
+            Ensure.That(resolveCommandType, "ResolveCommandType").IsNotNull();
 
             _handlerResolver = handlerResolver;
             _resolveCommandType = resolveCommandType;
@@ -69,7 +69,7 @@ namespace Cedar.CommandHandling.Http
             get { return _parseMediaType; }
             set
             {
-                Condition.Requires(value, "value").IsNotNull();
+                Ensure.That(value, "value").IsNotNull();
                 _parseMediaType = value;
             }
         }
@@ -89,7 +89,7 @@ namespace Cedar.CommandHandling.Http
             get { return _deserializeCommand; }
             set
             {
-                Condition.Requires(value, "value").IsNotNull();
+                Ensure.That(value, "value").IsNotNull();
                 _deserializeCommand = CatchDeserializationExceptions(value);
             }
         }

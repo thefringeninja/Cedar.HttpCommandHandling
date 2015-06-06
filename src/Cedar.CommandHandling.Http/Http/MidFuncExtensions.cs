@@ -2,7 +2,7 @@
 {
     using System;
     using System.Net.Http;
-    using CuttingEdge.Conditions;
+    using EnsureThat;
     using MidFunc = System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>,
             System.Threading.Tasks.Task
         >, System.Func<System.Collections.Generic.IDictionary<string, object>,
@@ -14,7 +14,7 @@
     {
         public static HttpClient CreateEmbeddedClient(this MidFunc midFunc, Uri baseAddress = null)
         {
-            Condition.Requires(midFunc).IsNotNull();
+            Ensure.That(midFunc).IsNotNull();
 
             baseAddress = baseAddress ?? new Uri("http://localhost");
 
