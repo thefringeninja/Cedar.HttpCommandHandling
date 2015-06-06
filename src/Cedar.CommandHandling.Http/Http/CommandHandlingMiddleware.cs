@@ -14,12 +14,9 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using Owin;
-    using MidFunc = System.Func<System.Func<System.Collections.Generic.IDictionary<string, object>, 
-            System.Threading.Tasks.Task
-        >, System.Func<System.Collections.Generic.IDictionary<string, object>, 
-            System.Threading.Tasks.Task
-        >
-    >;
+    using MidFunc = System.Func<
+        System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>,
+        System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>;
 
     /// <summary>
     ///     Middleware to handle commands.
