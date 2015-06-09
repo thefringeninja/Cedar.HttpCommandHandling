@@ -68,7 +68,7 @@ task ILMerge -depends Compile {
 
     $dllDir = "$srcDir\Cedar.CommandHandling.Http\bin\Release"
     $inputDlls = "$dllDir\Cedar.CommandHandling.Http.dll"
-    @(  "CuttingEdge.Conditions",
+    @(  "EnsureThat",
         "Microsoft.IO.RecyclableMemoryStream",
         "Microsoft.Owin",
         "Newtonsoft.Json",
@@ -77,6 +77,11 @@ task ILMerge -depends Compile {
         "System.Net.Http.Formatting",
         "System.Web.Http",`
         "System.Web.Http.Owin") |% { $inputDlls = "$inputDlls $dllDir\$_.dll" }
+    Invoke-Expression "$ilmergePath /targetplatform:v4 /internalize /allowDup /target:library /log /out:$mergedDir\Cedar.CommandHandling.Http.dll $inputDlls"
+
+    $dllDir = "$srcDir\Cedar.CommandHandling.Http.Client\bin\Release"
+    $inputDlls = "$dllDir\Cedar.CommandHandling.Http.Client.dll"
+    @(  "EnsureThat" ) |% { $inputDlls = "$inputDlls $dllDir\$_.dll" }
     Invoke-Expression "$ilmergePath /targetplatform:v4 /internalize /allowDup /target:library /log /out:$mergedDir\Cedar.CommandHandling.Http.dll $inputDlls"
 }
 
