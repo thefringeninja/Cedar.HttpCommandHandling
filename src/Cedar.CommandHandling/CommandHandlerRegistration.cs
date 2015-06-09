@@ -9,12 +9,12 @@ namespace Cedar.CommandHandling
             new MessageTypeEqualityComparer();
 
         private readonly object _handlerInstance;
-        private readonly Type _messageType;
+        private readonly Type _commandType;
         private readonly Type _registrationType;
 
-        internal CommandHandlerRegistration(Type messageType, Type registrationType, object handlerInstance)
+        internal CommandHandlerRegistration(Type commandType, Type registrationType, object handlerInstance)
         {
-            _messageType = messageType;
+            _commandType = commandType;
             _registrationType = registrationType;
             _handlerInstance = handlerInstance;
         }
@@ -29,9 +29,9 @@ namespace Cedar.CommandHandling
             get { return _registrationType; }
         }
 
-        public Type MessageType
+        public Type CommandType
         {
-            get { return _messageType; }
+            get { return _commandType; }
         }
 
         public object HandlerInstance
@@ -59,12 +59,12 @@ namespace Cedar.CommandHandling
                 {
                     return false;
                 }
-                return x._messageType == y._messageType;
+                return x._commandType == y._commandType;
             }
 
             public int GetHashCode(CommandHandlerRegistration obj)
             {
-                return obj._messageType.GetHashCode();
+                return obj._commandType.GetHashCode();
             }
         }
     }

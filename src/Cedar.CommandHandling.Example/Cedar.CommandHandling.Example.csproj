@@ -81,7 +81,6 @@
     <Compile Include="07_Embedded.cs" />
     <Compile Include="06_UnitTestingHandlers.cs" />
     <Compile Include="05_CommandVersioning.cs" />
-    <Compile Include="04_CommandTypeResolution.cs" />
     <Compile Include="02_Piping.cs" />
     <Compile Include="03_PipingExtensions.cs" />
     <Compile Include="01_Simple.cs" />

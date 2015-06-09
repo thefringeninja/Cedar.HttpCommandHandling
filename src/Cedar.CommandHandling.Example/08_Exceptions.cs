@@ -42,6 +42,7 @@ namespace Cedar.CommandHandling.Example.Exceptions
     using System.Threading.Tasks;
     using Cedar.CommandHandling;
     using Cedar.CommandHandling.Http;
+    using Cedar.CommandHandling.Http.TypeResolution;
     using Xunit;
 
     public class CommandThatThrowsStandardException { }
@@ -131,7 +132,26 @@ namespace Cedar.CommandHandling.Example.Exceptions
         public async Task Example_exception_handling()
         {
             var resolver = new CommandHandlerResolver(new CommandModule());
-            var settings = new CommandHandlingSettings(resolver)
+            var commandMediaTypeMap = new CommandMediaTypeMap(new CommandMediaTypeWithQualifierVersionFormatter())
+            {
+                {
+                    typeof(CommandThatThrowsStandardException).Name.ToLower(), 
+                    typeof(CommandThatThrowsStandardException)
+                },
+                {
+                    typeof(CommandThatThrowsProblemDetailsException).Name.ToLower(),
+                    typeof(CommandThatThrowsProblemDetailsException)
+                },
+                {
+                    typeof(CommandThatThrowsMappedException).Name.ToLower(),
+                    typeof(CommandThatThrowsMappedException)
+                },
+                {
+                    typeof(CommandThatThrowsCustomProblemDetailsException).Name.ToLower(),
+                    typeof(CommandThatThrowsCustomProblemDetailsException)
+                }
+            };
+            var settings = new CommandHandlingSettings(resolver, commandMediaTypeMap)
             {
                 // 10. Specify the exception -> HttpProblemDetails mapper here
                 MapProblemDetailsFromException = MapExceptionToProblemDetails
@@ -143,7 +163,7 @@ namespace Cedar.CommandHandling.Example.Exceptions
                 // 11. Handling standard exceptions.
                 try
                 {
-                    await client.PutCommand(new CommandThatThrowsStandardException(), Guid.NewGuid());
+                    await client.PutCommand(new CommandThatThrowsStandardException(), Guid.NewGuid(), commandMediaTypeMap);
                 }
                 catch(HttpRequestException ex)
                 {
@@ -153,7 +173,7 @@ namespace Cedar.CommandHandling.Example.Exceptions
                 // 12. Handling explicit HttpProblemDetailsExceptions
                 try
                 {
-                    await client.PutCommand(new CommandThatThrowsProblemDetailsException(), Guid.NewGuid());
+                    await client.PutCommand(new CommandThatThrowsProblemDetailsException(), Guid.NewGuid(), commandMediaTypeMap);
                 }
                 catch (HttpProblemDetailsException<HttpProblemDetails> ex)
                 {
@@ -164,7 +184,7 @@ namespace Cedar.CommandHandling.Example.Exceptions
                 // 13. Handling mapped exceptions, same as #6
                 try
                 {
-                    await client.PutCommand(new CommandThatThrowsMappedException(), Guid.NewGuid());
+                    await client.PutCommand(new CommandThatThrowsMappedException(), Guid.NewGuid(), commandMediaTypeMap);
                 }
                 catch (HttpProblemDetailsException<HttpProblemDetails> ex)
                 {
@@ -175,7 +195,7 @@ namespace Cedar.CommandHandling.Example.Exceptions
                 // 14. Handling custom HttpProblemDetailExceptions
                 try
                 {
-                    await client.PutCommand(new CommandThatThrowsCustomProblemDetailsException(), Guid.NewGuid());
+                    await client.PutCommand(new CommandThatThrowsCustomProblemDetailsException(), Guid.NewGuid(), commandMediaTypeMap);
                 }
                 catch (CustomHttpProblemDetailsException ex)
                 {

@@ -25,6 +25,7 @@ namespace Cedar.CommandHandling.Example.Embedded
     using System.Threading.Tasks;
     using Cedar.CommandHandling;
     using Cedar.CommandHandling.Http;
+    using Cedar.CommandHandling.Http.TypeResolution;
     using Xunit;
 
     public class Command
@@ -46,7 +47,11 @@ namespace Cedar.CommandHandling.Example.Embedded
         {
             // 1. Setup the middlware
             var resolver = new CommandHandlerResolver(new CommandModule());
-            var settings = new CommandHandlingSettings(resolver);
+            var commandMediaTypeMap = new CommandMediaTypeMap(new CommandMediaTypeWithQualifierVersionFormatter())
+            {
+                { typeof(Command).FullName.ToLower(), typeof(Command) }
+            };
+            var settings = new CommandHandlingSettings(resolver, commandMediaTypeMap);
             var middleware = CommandHandlingMiddleware.HandleCommands(settings);
 
             // 2. Create an embedded HttpClient. This allows invoking of the 
@@ -56,7 +61,7 @@ namespace Cedar.CommandHandling.Example.Embedded
                 // 3. This is as close as you can get to simulating a real client call
                 //    without needing real server. 
                 //    Can use this to do acceptance testing also.
-                await client.PutCommand(new Command(), Guid.NewGuid());
+                await client.PutCommand(new Command(), Guid.NewGuid(), commandMediaTypeMap);
             }
         }
     }

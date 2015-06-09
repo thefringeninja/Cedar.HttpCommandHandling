@@ -38,6 +38,10 @@
   <ItemGroup>
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="CommandClient.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ResolveMediaType.cs" />
+    <Compile Include="TypeResolution\CommandMediaTypeFormatter.cs" />
+    <Compile Include="TypeResolution\CommandMediaTypeMap.cs" />
     <Compile Include="HttpProblemDetails.cs" />
     <Compile Include="HttpProblemDetailsException.cs" />
     <Compile Include="IHttpProblemDetailException.cs" />
@@ -46,10 +50,24 @@
     <Compile Include="SimpleJson.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TypeExtensions.cs" />
+    <Compile Include="TypeResolution\CommandMediaTypeWithDotVersionFormatter.cs" />
+    <Compile Include="TypeResolution\CommandMediaTypeWithMinusVersionFormatter.cs" />
+    <Compile Include="TypeResolution\CommandMediaTypeWithQualifierVersionFormatter.cs" />
+    <Compile Include="TypeResolution\CommandNameAndVersion.cs" />
+    <Compile Include="TypeResolution\MediaTypeParsers.cs" />
+    <Compile Include="TypeResolution\ParsedMediaType.cs" />
+    <Compile Include="TypeResolution\ParseMediaType.cs" />
+    <Compile Include="TypeResolution\ResolveCommandType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cedar.CommandHandling.Http.Client.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EnsureThat, Version=2.0.0.39118, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

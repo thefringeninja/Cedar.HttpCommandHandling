@@ -1,4 +1,4 @@
-﻿namespace Cedar.HttpCommandHandling.TestHost
+﻿namespace Cedar.CommandHandling.Http.TestHost
 {
     using System;
     using System.Net;

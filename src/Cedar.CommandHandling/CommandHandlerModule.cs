@@ -2,6 +2,7 @@ namespace Cedar.CommandHandling
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class CommandHandlerModule
     {
@@ -25,6 +26,11 @@ namespace Cedar.CommandHandling
                 }
             });
         }
+
+        public IEnumerable<Type> CommandTypes
+        {
+            get { return _handlerRegistrations.Select(r => r.CommandType); }
+        } 
 
         private class CommandHandlerBuilder<TCommand> : ICommandHandlerBuilder<CommandMessage<TCommand>>
             where TCommand : class

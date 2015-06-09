@@ -10,7 +10,6 @@ namespace Cedar.CommandHandling.Http
     using System.Threading.Tasks;
     using System.Web.Http;
     using Cedar.CommandHandling.Http.Logging;
-    using Cedar.CommandHandling.Http.TypeResolution;
     using Microsoft.IO;
 
     internal class CommandHandlerController : ApiController
@@ -46,13 +45,7 @@ namespace Cedar.CommandHandling.Http
         [HttpPut]
         public async Task<HttpResponseMessage> PutCommand(Guid commandId, CancellationToken cancellationToken)
         {
-            IParsedMediaType parsedMediaType = ParseMediaType();
-            Type commandType = ResolveCommandType(parsedMediaType);
-            if(!string.Equals(parsedMediaType.SerializationType, "json", StringComparison.OrdinalIgnoreCase))
-            {
-                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
-            }
-
+            Type commandType = ResolveCommandType(Request.Content.Headers.ContentType.MediaType);
             object command = await DeserializeCommand(commandType);
 
             var metadata = new Dictionary<string, object>();
@@ -62,25 +55,21 @@ namespace Cedar.CommandHandling.Http
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        private IParsedMediaType ParseMediaType()
+        private Type ResolveCommandType(string mediaType)
         {
-            string mediaType = Request.Content.Headers.ContentType.MediaType;
-            IParsedMediaType parsedMediaType = _settings.ParseMediaType(mediaType);
-            if (parsedMediaType == null)
+            try
             {
-                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+                return _settings.ResolveCommandType(mediaType);
             }
-            return parsedMediaType;
-        }
-
-        private Type ResolveCommandType(IParsedMediaType parsedMediaType)
-        {
-            Type commandType = _settings.ResolveCommandType(parsedMediaType.TypeName, parsedMediaType.Version);
-            if (commandType == null)
+            catch(Exception ex)
             {
-                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+                var problemDetails = new HttpProblemDetails
+                {
+                    Status = (int) HttpStatusCode.UnsupportedMediaType,
+                    Detail = ex.Message
+                };
+                throw new HttpProblemDetailsException<HttpProblemDetails>(problemDetails);
             }
-            return commandType;
         }
 
         private async Task<object> DeserializeCommand(Type commandType)

@@ -25,6 +25,7 @@ namespace Cedar.CommandHandling.Example.CustomSerialization
     using System.Threading.Tasks;
     using Cedar.CommandHandling;
     using Cedar.CommandHandling.Http;
+    using Cedar.CommandHandling.Http.TypeResolution;
     using Newtonsoft.Json;
     using Xunit;
 
@@ -46,9 +47,14 @@ namespace Cedar.CommandHandling.Example.CustomSerialization
         public async Task Can_invoke_command_over_http()
         {
             var resolver = new CommandHandlerResolver(new CommandModule());
+            var commandMediaTypeMap = new CommandMediaTypeMap(new CommandMediaTypeWithQualifierVersionFormatter())
+            {
+                { typeof(Command).FullName.ToLower(), typeof(Command) }
+            };
+
             // 1. Create the serializer
             var jsonSerializer = new JsonSerializer();
-            var settings = new CommandHandlingSettings(resolver)
+            var settings = new CommandHandlingSettings(resolver, commandMediaTypeMap)
             {
                 // 2. Customize the deserialization
                 DeserializeCommand = (commandReader, type) =>
@@ -73,7 +79,7 @@ namespace Cedar.CommandHandling.Example.CustomSerialization
                 // 3. This is as close as you can get to simulating a real client call
                 //    without needing real server. 
                 //    Can use this to do acceptance testing also.
-                await client.PutCommand(new Command(), Guid.NewGuid(), serializeCommand: serializeCommand);
+                await client.PutCommand(new Command(), Guid.NewGuid(), commandMediaTypeMap, serializeCommand: serializeCommand);
             }
         }
     }

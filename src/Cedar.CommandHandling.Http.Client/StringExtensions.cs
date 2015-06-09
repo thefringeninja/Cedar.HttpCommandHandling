@@ -13,11 +13,10 @@ namespace System
 
         internal static string ToCamelCase(this string s)
         {
-            if (string.IsNullOrEmpty(s))
+            if(string.IsNullOrEmpty(s) || !char.IsUpper(s[0]))
+            {
                 return s;
-
-            if (!char.IsUpper(s[0]))
-                return s;
+            }
 
             var sb = new StringBuilder();
             var lastIndex = s.Length - 1;

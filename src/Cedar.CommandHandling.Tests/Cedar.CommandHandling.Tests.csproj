@@ -82,12 +82,16 @@
     <Compile Include="CommandHandlingFixture.cs" />
     <Compile Include="CommandHandlingSettingsTests.cs" />
     <Compile Include="CommandHandlingTests.cs" />
-    <Compile Include="CommandTypeResolversTests.cs" />
     <Compile Include="DefaultGetEventStoreJsonSerializer.cs" />
     <Compile Include="HttpProblemDetailsTests.cs" />
     <Compile Include="PredispatchTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskExtensionsTests.cs" />
+    <Compile Include="TypeResolution\CommandMediaTypeWithQualifierVersionFormatterTests.cs" />
+    <Compile Include="TypeResolution\CommandMediaTypeWithMinusVersionFormatterTests.cs" />
+    <Compile Include="TypeResolution\CommandMediaTypeWithDotVersionFormatterTests.cs" />
+    <Compile Include="TypeResolution\CommandMediaTypeMapTests.cs" />
+    <Compile Include="TypeResolution\MediaTypeParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

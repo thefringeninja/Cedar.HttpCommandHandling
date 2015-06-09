@@ -14,11 +14,11 @@ namespace Cedar.CommandHandling
             {
                 foreach(var handlerRegistration in module.HandlerRegistrations)
                 {
-                    if (!_knownCommandTypes.Add(handlerRegistration.MessageType))
+                    if (!_knownCommandTypes.Add(handlerRegistration.CommandType))
                     {
                         throw new InvalidOperationException(
                             "Attempt to register multiple handlers for command type {0}"
-                                .FormatWith(handlerRegistration.MessageType));
+                                .FormatWith(handlerRegistration.CommandType));
                     }
                     _handlers[handlerRegistration.RegistrationType] = handlerRegistration.HandlerInstance;
                 }

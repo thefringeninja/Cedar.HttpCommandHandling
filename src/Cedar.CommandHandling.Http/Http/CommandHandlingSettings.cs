@@ -3,7 +3,7 @@ namespace Cedar.CommandHandling.Http
     using System;
     using Cedar.CommandHandling.Http.Properties;
     using Cedar.CommandHandling.Http.TypeResolution;
-    using CuttingEdge.Conditions;
+    using EnsureThat;
 
     public class CommandHandlingSettings
     {
@@ -11,25 +11,19 @@ namespace Cedar.CommandHandling.Http
         private readonly ResolveCommandType _resolveCommandType;
         private DeserializeCommand _deserializeCommand;
         private MapProblemDetailsFromException _mapProblemDetailsFromException;
-        private ParseMediaType _parseMediaType = MediaTypeParsers.AllCombined;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="CommandHandlingSettings"/> class using
-        ///     <see cref="CommandTypeResolvers.FullNameWithUnderscoreVersionSuffix"/> as the command type resolver.
-        /// </summary>
-        /// <param name="handlerResolver">The handler resolver.</param>
-        public CommandHandlingSettings([NotNull] ICommandHandlerResolver handlerResolver)
-            : this(
-                handlerResolver,
-                CommandTypeResolvers.FullNameWithUnderscoreVersionSuffix(handlerResolver.KnownCommandTypes))
+        public CommandHandlingSettings(
+            [NotNull] ICommandHandlerResolver handlerResolver,
+            [NotNull] CommandMediaTypeMap commandMediaTypeMap)
+            : this(handlerResolver, commandMediaTypeMap.GetCommandType)
         {}
 
         public CommandHandlingSettings(
             [NotNull] ICommandHandlerResolver handlerResolver,
             [NotNull] ResolveCommandType resolveCommandType)
         {
-            Condition.Requires(handlerResolver, "handlerResolver").IsNotNull();
-            Condition.Requires(resolveCommandType, "ResolveCommandType").IsNotNull();
+            Ensure.That(handlerResolver, "handlerResolver").IsNotNull();
+            Ensure.That(resolveCommandType, "ResolveCommandType").IsNotNull();
 
             _handlerResolver = handlerResolver;
             _resolveCommandType = resolveCommandType;
@@ -64,16 +58,6 @@ namespace Cedar.CommandHandling.Http
             get { return _resolveCommandType; }
         }
 
-        public ParseMediaType ParseMediaType
-        {
-            get { return _parseMediaType; }
-            set
-            {
-                Condition.Requires(value, "value").IsNotNull();
-                _parseMediaType = value;
-            }
-        }
-
         public Predispatch OnPredispatch { get; set; }
 
         /// <summary>
@@ -89,7 +73,7 @@ namespace Cedar.CommandHandling.Http
             get { return _deserializeCommand; }
             set
             {
-                Condition.Requires(value, "value").IsNotNull();
+                Ensure.That(value, "value").IsNotNull();
                 _deserializeCommand = CatchDeserializationExceptions(value);
             }
         }
