@@ -7,6 +7,10 @@
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using Cedar.CommandHandling.Http.Logging;
+    using Cedar.CommandHandling.Http.TypeResolution;
+    using EnsureThat;
+
+    public delegate string ResolveMediaType(Type commandType, string serializationType);
 
     public static class CommandClient
     {
@@ -19,8 +23,8 @@
         };
         internal static readonly ProductInfoHeaderValue UserAgent;
         internal static readonly IJsonSerializerStrategy JsonSerializerStrategy = new CamelCasingSerializerStrategy();
-        internal const string HttpProblemDetailsClrType = "Cedar-HttpProblemDetails-ClrType";
-        internal const string HttpProblemDetailsExceptionClrType = "Cedar-HttpProblemDetailsException-ClrType";
+        internal const string HttpProblemDetailsClrType = "Cedar-CommandHandling-HttpProblemDetails-ClrType";
+        internal const string HttpProblemDetailsExceptionClrType = "Cedar-CommandHandling-HttpProblemDetailsException-ClrType";
 
         static CommandClient()
         {
@@ -30,16 +34,46 @@
             UserAgent = new ProductInfoHeaderValue(type.FullName, version);
         }
 
-        public static async Task PutCommand(
+        public static Task PutCommand(
             this HttpClient client,
             object command,
             Guid commandId,
+            CommandMediaTypeMap commandMediaTypeMap,
             string basePath = null,
             Action<HttpRequestMessage> customizeRequest = null,
             SerializeCommand serializeCommand = null)
         {
+            Ensure.That(client, "client").IsNotNull();
+            Ensure.That(command, "command").IsNotNull();
+            Ensure.That(commandId, "commandId").IsNotEmpty();
+            Ensure.That(commandMediaTypeMap, "commandMediaTypeMap").IsNotNull();
+
+            return PutCommand(
+                client,
+                command,
+                commandId,
+                commandMediaTypeMap.GetMediaType,
+                basePath,
+                customizeRequest,
+                serializeCommand);
+        }
+
+        public static async Task PutCommand(
+            this HttpClient client,
+            object command,
+            Guid commandId,
+            ResolveMediaType resolveMediaType,
+            string basePath = null,
+            Action<HttpRequestMessage> customizeRequest = null,
+            SerializeCommand serializeCommand = null)
+        {
+            Ensure.That(client, "client").IsNotNull();
+            Ensure.That(command, "command").IsNotNull();
+            Ensure.That(commandId, "commandId").IsNotEmpty();
+            Ensure.That(resolveMediaType, "resolveMediaType").IsNotNull();
+
             basePath = basePath ?? string.Empty;
-            var request = CreatePutCommandRequest(command, commandId, basePath, serializeCommand);
+            var request = CreatePutCommandRequest(command, commandId, basePath, resolveMediaType, serializeCommand);
             if(customizeRequest != null)
             {
                 customizeRequest(request);
@@ -56,16 +90,21 @@
             object command,
             Guid commandId,
             string basePath,
+            ResolveMediaType resolveMediaType,
             SerializeCommand serializeCommand = null)
         {
+            Ensure.That(command, "command").IsNotNull();
+            Ensure.That(commandId, "commandId").IsNotEmpty();
+            Ensure.That(resolveMediaType).IsNotNull();
+
             serializeCommand = serializeCommand ?? DefaultSerializeCommand;
             using(var writer = new StringWriter())
             {
                 serializeCommand(writer, command);
 
                 var httpContent = new StringContent(writer.ToString());
-                httpContent.Headers.ContentType =
-                    MediaTypeHeaderValue.Parse("application/vnd.{0}+json".FormatWith(command.GetType().FullName.ToLowerInvariant()));
+                var mediaType = resolveMediaType(command.GetType(), "json");
+                httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse(mediaType);
 
                 var request = new HttpRequestMessage(HttpMethod.Put, basePath + "/{0}".FormatWith(commandId))
                 {
@@ -84,6 +123,8 @@
                 && response.Content.Headers.ContentType != null
                 && response.Content.Headers.ContentType.Equals(HttpProblemDetails.MediaTypeHeaderValue))
             {
+                Ensure.That(response, "response").IsNotNull();
+
                 // Extract problem details, if they are supplied.
                 var body = await response.Content.ReadAsStringAsync();
                 var problemDetailsClrType = response

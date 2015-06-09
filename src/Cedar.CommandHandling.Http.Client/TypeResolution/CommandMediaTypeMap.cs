@@ -1,9 +1,10 @@
 ﻿namespace Cedar.CommandHandling.Http.TypeResolution
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
 
-    public class CommandMediaTypeMap
+    public class CommandMediaTypeMap : IEnumerable<KeyValuePair<CommandNameAndVersion, Type>>
     {
         private readonly CommandMediaTypeFormatter _commandMediaTypeFormatter;
         private readonly Dictionary<CommandNameAndVersion, Type> _mediaTypeToCommandType 
@@ -43,6 +44,16 @@
         {
             var commandNameAndVersion = _commandTypeToMediaType[commandType];
             return _commandMediaTypeFormatter.GetMediaType(commandNameAndVersion, serializationType);
+        }
+
+        public IEnumerator<KeyValuePair<CommandNameAndVersion, Type>> GetEnumerator()
+        {
+            return _mediaTypeToCommandType.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

@@ -82,7 +82,6 @@
     <Compile Include="CommandHandlingFixture.cs" />
     <Compile Include="CommandHandlingSettingsTests.cs" />
     <Compile Include="CommandHandlingTests.cs" />
-    <Compile Include="CommandTypeResolversTests.cs" />
     <Compile Include="DefaultGetEventStoreJsonSerializer.cs" />
     <Compile Include="HttpProblemDetailsTests.cs" />
     <Compile Include="PredispatchTests.cs" />

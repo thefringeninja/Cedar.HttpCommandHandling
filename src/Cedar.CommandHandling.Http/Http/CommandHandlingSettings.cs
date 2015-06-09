@@ -11,17 +11,11 @@ namespace Cedar.CommandHandling.Http
         private readonly ResolveCommandType _resolveCommandType;
         private DeserializeCommand _deserializeCommand;
         private MapProblemDetailsFromException _mapProblemDetailsFromException;
-        private ParseMediaType _parseMediaType = MediaTypeParsers.AllCombined;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="CommandHandlingSettings"/> class using
-        ///     <see cref="CommandTypeResolvers.FullNameWithUnderscoreVersionSuffix"/> as the command type resolver.
-        /// </summary>
-        /// <param name="handlerResolver">The handler resolver.</param>
-        public CommandHandlingSettings([NotNull] ICommandHandlerResolver handlerResolver)
-            : this(
-                handlerResolver,
-                CommandTypeResolvers.FullNameWithUnderscoreVersionSuffix(handlerResolver.KnownCommandTypes))
+        public CommandHandlingSettings(
+            [NotNull] ICommandHandlerResolver handlerResolver,
+            [NotNull] CommandMediaTypeMap commandMediaTypeMap)
+            : this(handlerResolver, commandMediaTypeMap.GetCommandType)
         {}
 
         public CommandHandlingSettings(
@@ -62,16 +56,6 @@ namespace Cedar.CommandHandling.Http
         public ResolveCommandType ResolveCommandType
         {
             get { return _resolveCommandType; }
-        }
-
-        public ParseMediaType ParseMediaType
-        {
-            get { return _parseMediaType; }
-            set
-            {
-                Ensure.That(value, "value").IsNotNull();
-                _parseMediaType = value;
-            }
         }
 
         public Predispatch OnPredispatch { get; set; }

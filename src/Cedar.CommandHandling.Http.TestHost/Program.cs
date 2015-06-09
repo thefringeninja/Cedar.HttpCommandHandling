@@ -1,9 +1,10 @@
-﻿namespace Cedar.HttpCommandHandling.TestHost
+﻿namespace Cedar.CommandHandling.Http.TestHost
 {
     using System;
     using System.Diagnostics;
     using Cedar.CommandHandling;
     using Cedar.CommandHandling.Http;
+    using Cedar.CommandHandling.Http.TypeResolution;
     using Microsoft.Owin;
     using Microsoft.Owin.FileSystems;
     using Microsoft.Owin.Hosting;
@@ -15,7 +16,9 @@
         private static void Main()
         {
             var resolver = new CommandHandlerResolver(new CommandModule());
-            var settings = new CommandHandlingSettings(resolver);
+            var settings = new CommandHandlingSettings(
+                resolver,
+                new CommandMediaTypeMap(new CommandMediaTypeWithQualifierVersionFormatter()));
             var commandHandlingMiddleware = CommandHandlingMiddleware.HandleCommands(settings);
 
             using(WebApp.Start("http://localhost:8080",

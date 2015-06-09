@@ -10,6 +10,7 @@ namespace Cedar.CommandHandling.Example.Simple
     using System.Threading.Tasks;
     using Cedar.CommandHandling;
     using Cedar.CommandHandling.Http;
+    using Cedar.CommandHandling.Http.TypeResolution;
     using Microsoft.Owin.Hosting;
 
     // 1. Simple commands.
@@ -54,7 +55,12 @@ namespace Cedar.CommandHandling.Example.Simple
         {
             Func<IFoo> getFoo = () => new DummyFoo();
             var resolver = new CommandHandlerResolver(new CommandModule(getFoo));
-            var settings = new CommandHandlingSettings(resolver);
+            var commandMediaTypeMap = new CommandMediaTypeMap(new CommandMediaTypeWithQualifierVersionFormatter())
+            {
+                { typeof(CommandWithSyncHandler).Name.ToLowerInvariant(), typeof(CommandWithSyncHandler) },
+                { typeof(CommandWithAsyncHandler).Name.ToLowerInvariant(), typeof(CommandWithAsyncHandler) },
+            };
+            var settings = new CommandHandlingSettings(resolver, commandMediaTypeMap);
             var commandHandlingMiddleware = CommandHandlingMiddleware.HandleCommands(settings);
 
             // 5. Add the middleware to your owin pipeline

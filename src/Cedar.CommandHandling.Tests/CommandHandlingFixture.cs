@@ -6,17 +6,27 @@ namespace Cedar.CommandHandling
     using System.Net.Http;
     using System.Threading.Tasks;
     using Cedar.CommandHandling.Http;
+    using Cedar.CommandHandling.Http.TypeResolution;
 
     public class CommandHandlingFixture
     {
         private readonly Func<Func<IDictionary<string, object>, Task>, Func<IDictionary<string, object>, Task>> _midFunc;
         private readonly List<object> _receivedCommands = new List<object>();
+        internal readonly CommandMediaTypeMap CommandMediaTypeMap;
 
         public CommandHandlingFixture()
         {
             var module = CreateCommandHandlerModule();
             var handlerResolver = new CommandHandlerResolver(module);
-            var commandHandlingSettings = new CommandHandlingSettings(handlerResolver)
+            CommandMediaTypeMap = new CommandMediaTypeMap(new CommandMediaTypeWithQualifierVersionFormatter())
+            {
+                { typeof(Command).Name.ToLowerInvariant(), typeof(Command) },
+                { typeof(CommandThatThrowsStandardException).Name.ToLowerInvariant(), typeof(CommandThatThrowsStandardException) },
+                { typeof(CommandThatThrowsProblemDetailsException).Name.ToLowerInvariant(), typeof(CommandThatThrowsProblemDetailsException) },
+                { typeof(CommandThatThrowsMappedException).Name.ToLowerInvariant(), typeof(CommandThatThrowsMappedException) },
+                { typeof(CommandThatThrowsCustomProblemDetailsException).Name.ToLowerInvariant(), typeof(CommandThatThrowsCustomProblemDetailsException) }
+            };
+            var commandHandlingSettings = new CommandHandlingSettings(handlerResolver, CommandMediaTypeMap)
             {
                 MapProblemDetailsFromException = CreateProblemDetails
             };

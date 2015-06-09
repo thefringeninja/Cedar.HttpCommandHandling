@@ -29,7 +29,7 @@ namespace Cedar.CommandHandling.Example.CommandVersioning.V2
 // ReSharper disable once CheckNamespace
 namespace Cedar.CommandHandling.Example.CommandTypeResolution
 {
-    using System;
+   /* using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Cedar.CommandHandling;
@@ -63,7 +63,7 @@ namespace Cedar.CommandHandling.Example.CommandTypeResolution
                 typeof(CommandVersioning.V2.Command),
             }.ToDictionary(t => t.Name.ToLowerInvariant(), t => t);
 
-            var resolveCommandType = new ResolveCommandType((typeName, version) =>
+            /*var resolveCommandType = new ResolveCommandType((typeName, version) =>
             {
                 // 2. In this example, we're not handling unversioned commands. You 
                 // may of course handle them. 
@@ -84,7 +84,7 @@ namespace Cedar.CommandHandling.Example.CommandTypeResolution
             });
 
             // 5. CommandHandlingSettings has a contructor overload to pass in the command type resolver.
-            var settings = new CommandHandlingSettings(resolver, resolveCommandType);
+            var settings = new CommandHandlingSettings(resolver, resolveCommandType);#1#
         }
-    }
+    }*/
 }

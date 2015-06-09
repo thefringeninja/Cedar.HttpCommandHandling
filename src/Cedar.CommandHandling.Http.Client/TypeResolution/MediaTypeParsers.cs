@@ -129,22 +129,7 @@ namespace Cedar.CommandHandling.Http.TypeResolution
 
                 return new ParsedMediaType(typeName, version, serializationType);
             };
-
-            AllCombined = mediaType => 
-                MediaTypeWithoutVersion(mediaType) ?? 
-                    (MediaTypeWithDotVersion(mediaType) ?? 
-                        (MediaTypeWithMinusVersion(mediaType) ?? 
-                            MediaTypeWithQualifierVersion(mediaType)));
         }
-
-        /// <summary>
-        ///     Gets a parser who tries all defined parsers in the order MediaTypeWithoutVersion, MediaTypeWithMinusVersion,
-        ///     MediaTypeWithQualifierVersion and MediaTypeWithDotVersion.
-        /// </summary>
-        /// <value>
-        ///     A media type parser.
-        /// </value>
-        public static readonly ParseMediaType AllCombined;
 
         /// <summary>
         ///     Gets the media type parser that handles media types that have the version

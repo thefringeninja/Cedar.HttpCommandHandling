@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Cedar.CommandHandling.Http;
+    using Cedar.CommandHandling.Http.TypeResolution;
     using FluentAssertions;
     using Xunit;
 
@@ -20,7 +21,12 @@
                 correlationId = commandMessage.Metadata.Get<string>(correlationIdKey);
                 return Task.FromResult(0);
             });
-            var settings = new CommandHandlingSettings(new CommandHandlerResolver(module))
+
+            var commandMediaTypeMap = new CommandMediaTypeMap(new CommandMediaTypeWithQualifierVersionFormatter())
+            {
+                { typeof(Command).Name.ToLower(), typeof(Command) }
+            };
+            var settings = new CommandHandlingSettings(new CommandHandlerResolver(module), commandMediaTypeMap)
             {
                 OnPredispatch = (metadata, headers) =>
                 {
@@ -36,7 +42,7 @@
 
             using(var client = midFunc.CreateEmbeddedClient())
             {
-                await client.PutCommand(new Command(), Guid.NewGuid(), customizeRequest: request =>
+                await client.PutCommand(new Command(), Guid.NewGuid(), commandMediaTypeMap, customizeRequest: request =>
                 {
                     request.Headers.Add(correlationIdKey, "cor-1");
                 });
