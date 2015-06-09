@@ -54,11 +54,16 @@ namespace Cedar.CommandHandling.Example.Simple
         static void Main()
         {
             Func<IFoo> getFoo = () => new DummyFoo();
-            var resolver = new CommandHandlerResolver(new CommandModule(getFoo));
+            var module = new CommandModule(getFoo);
+            var resolver = new CommandHandlerResolver(module);
             var commandMediaTypeMap = new CommandMediaTypeMap(new CommandMediaTypeWithQualifierVersionFormatter())
             {
-                { typeof(CommandWithSyncHandler).Name.ToLowerInvariant(), typeof(CommandWithSyncHandler) },
-                { typeof(CommandWithAsyncHandler).Name.ToLowerInvariant(), typeof(CommandWithAsyncHandler) },
+                // Use a string to decouple command name from the command clr type. This will ensure 
+                // refactoring, i.e. moving CommandWithSyncHandler or renaming it, won't change your http API. 
+                { "CommandWithSyncHandler", typeof(CommandWithSyncHandler) }, 
+
+                // Can use typeof().Name if you are not concerned with backwards compat or versioning.
+                { typeof(CommandWithAsyncHandler).Name, typeof(CommandWithAsyncHandler) },
             };
             var settings = new CommandHandlingSettings(resolver, commandMediaTypeMap);
             var commandHandlingMiddleware = CommandHandlingMiddleware.HandleCommands(settings);
