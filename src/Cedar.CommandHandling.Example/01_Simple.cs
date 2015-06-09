@@ -14,10 +14,10 @@ namespace Cedar.CommandHandling.Example.Simple
     using Microsoft.Owin.Hosting;
 
     // 1. Simple commands.
-    public class CommandWithSyncHandler
+    public class CommandThatHasASyncHandler
     {}
 
-    public class CommandWithAsyncHandler
+    public class CommandThatHasAnAsyncHandler
     {}
 
 
@@ -36,10 +36,10 @@ namespace Cedar.CommandHandling.Example.Simple
         // should be injected as factory methods / funcs.
         public CommandModule(Func<IFoo> getFoo)
         {
-            For<CommandWithSyncHandler>()
+            For<CommandThatHasASyncHandler>()
                 .Handle(commandMessage => getFoo().Bar());
 
-            For<CommandWithAsyncHandler>()
+            For<CommandThatHasAnAsyncHandler>()
                 .Handle(async (commandMessage, ct) =>
                 {
                     var foo = getFoo();
@@ -59,11 +59,11 @@ namespace Cedar.CommandHandling.Example.Simple
             var commandMediaTypeMap = new CommandMediaTypeMap(new CommandMediaTypeWithQualifierVersionFormatter())
             {
                 // Use a string to decouple command name from the command clr type. This will ensure 
-                // refactoring, i.e. moving CommandWithSyncHandler or renaming it, won't change your http API. 
-                { "CommandWithSyncHandler", typeof(CommandWithSyncHandler) }, 
+                // refactoring, i.e. moving CommandThatHasASyncHandler or renaming it, won't change your http API. 
+                { "CommandThatHasASyncHandler", typeof(CommandThatHasASyncHandler) }, 
 
                 // Can use typeof().Name if you are not concerned with backwards compat or versioning.
-                { typeof(CommandWithAsyncHandler).Name, typeof(CommandWithAsyncHandler) },
+                { typeof(CommandThatHasAnAsyncHandler).Name, typeof(CommandThatHasAnAsyncHandler) },
             };
             var settings = new CommandHandlingSettings(resolver, commandMediaTypeMap);
             var commandHandlingMiddleware = CommandHandlingMiddleware.HandleCommands(settings);
