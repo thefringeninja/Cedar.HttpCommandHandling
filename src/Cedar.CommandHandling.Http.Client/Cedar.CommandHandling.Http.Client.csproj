@@ -39,7 +39,7 @@
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="CommandClient.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="TypeResolution\CommandContentTypeMap.cs" />
+    <Compile Include="TypeResolution\CommandMediaTypeMap.cs" />
     <Compile Include="HttpProblemDetails.cs" />
     <Compile Include="HttpProblemDetailsException.cs" />
     <Compile Include="IHttpProblemDetailException.cs" />
@@ -49,7 +49,6 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="TypeResolution\CommandTypeResolvers.cs" />
-    <Compile Include="TypeResolution\IParsedMediaType.cs" />
     <Compile Include="TypeResolution\ITypeResolver.cs" />
     <Compile Include="TypeResolution\MediaTypeParsers.cs" />
     <Compile Include="TypeResolution\ParsedMediaType.cs" />

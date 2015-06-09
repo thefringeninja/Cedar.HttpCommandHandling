@@ -12,6 +12,6 @@ namespace Cedar.CommandHandling.Http.TypeResolution
         /// </summary>
         /// <param name="parsedMediaType">The parsed media type.</param>
         /// <returns>A type or null if none found.</returns>
-        Type Resolve(IParsedMediaType parsedMediaType);
+        Type Resolve(ParsedMediaType parsedMediaType);
     }
 }

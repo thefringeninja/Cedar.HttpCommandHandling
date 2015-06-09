@@ -46,7 +46,7 @@ namespace Cedar.CommandHandling.Http
         [HttpPut]
         public async Task<HttpResponseMessage> PutCommand(Guid commandId, CancellationToken cancellationToken)
         {
-            IParsedMediaType parsedMediaType = ParseMediaType();
+            ParsedMediaType parsedMediaType = ParseMediaType();
             Type commandType = ResolveCommandType(parsedMediaType);
             if(!string.Equals(parsedMediaType.SerializationType, "json", StringComparison.OrdinalIgnoreCase))
             {
@@ -62,10 +62,10 @@ namespace Cedar.CommandHandling.Http
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        private IParsedMediaType ParseMediaType()
+        private ParsedMediaType ParseMediaType()
         {
             string mediaType = Request.Content.Headers.ContentType.MediaType;
-            IParsedMediaType parsedMediaType = _settings.ParseMediaType(mediaType);
+            ParsedMediaType parsedMediaType = _settings.ParseMediaType(mediaType);
             if (parsedMediaType == null)
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
@@ -73,9 +73,9 @@ namespace Cedar.CommandHandling.Http
             return parsedMediaType;
         }
 
-        private Type ResolveCommandType(IParsedMediaType parsedMediaType)
+        private Type ResolveCommandType(ParsedMediaType parsedMediaType)
         {
-            Type commandType = _settings.ResolveCommandType(parsedMediaType.TypeName, parsedMediaType.Version);
+            Type commandType = _settings.ResolveCommandType(parsedMediaType.CommandName, parsedMediaType.Version);
             if (commandType == null)
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
