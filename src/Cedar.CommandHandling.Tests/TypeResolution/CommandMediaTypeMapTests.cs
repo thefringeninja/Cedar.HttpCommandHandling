@@ -11,7 +11,7 @@
 
         public CommandMediaTypeMapTests()
         {
-            _sut = new CommandMediaTypeMap(new MediaTypeWithDotVersionFormatter());
+            _sut = new CommandMediaTypeMap(new CommandMediaTypeWithDotVersionFormatter());
         }
 
         [Fact]
