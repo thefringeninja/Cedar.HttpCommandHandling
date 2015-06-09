@@ -10,8 +10,6 @@
     using Cedar.CommandHandling.Http.TypeResolution;
     using EnsureThat;
 
-    public delegate string ResolveMediaType(Type commandType, string serializationType);
-
     public static class CommandClient
     {
         private static readonly ILog Logger = LogProvider.GetLogger(typeof(CommandClient).Name);

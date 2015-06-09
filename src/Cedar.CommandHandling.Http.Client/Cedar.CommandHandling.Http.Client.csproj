@@ -39,6 +39,7 @@
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="CommandClient.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ResolveMediaType.cs" />
     <Compile Include="TypeResolution\CommandMediaTypeFormatter.cs" />
     <Compile Include="TypeResolution\CommandMediaTypeMap.cs" />
     <Compile Include="HttpProblemDetails.cs" />
