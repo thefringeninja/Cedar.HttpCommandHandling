@@ -82,7 +82,7 @@ task ILMerge -depends Compile {
     $dllDir = "$srcDir\Cedar.CommandHandling.Http.Client\bin\Release"
     $inputDlls = "$dllDir\Cedar.CommandHandling.Http.Client.dll"
     @(  "EnsureThat" ) |% { $inputDlls = "$inputDlls $dllDir\$_.dll" }
-    Invoke-Expression "$ilmergePath /targetplatform:v4 /internalize /allowDup /target:library /log /out:$mergedDir\Cedar.CommandHandling.Http.dll $inputDlls"
+    Invoke-Expression "$ilmergePath /targetplatform:v4 /internalize /allowDup /target:library /log /out:$mergedDir\Cedar.CommandHandling.Http.Client.dll $inputDlls"
 }
 
 task CompileJs -depends RestoreNpm {
