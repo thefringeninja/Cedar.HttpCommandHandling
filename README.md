@@ -8,8 +8,8 @@ Owin Middleware for handling commands, typically used in CQRS applications. Comm
 2. Easy way to create handler pipelines.
 3. Strategies to support command versioning using Content-Type.
 4. An optional .NET client library to facilitate simple command invocation.
-5. Supports IETF HTTP Problem Details for errors (json only). Problem details are extendable and exceptions are re-raised when using .NET client. 
-6. Simple to test without any enviromental dependencies.
+5. Supports IETF HTTP Problem Details for errors (json only). Problem details are extendable and exceptions are re-raised when using .NET client.
+6. Simple to test without any environmental dependencies.
 7. Commands can be invoked embedded, in-mem and in-proc allowing the same pipeline to be invoked remote or locally.
 8. No dependencies!
 
@@ -34,9 +34,9 @@ public class Server
         var resolver = new CommandHandlerResolver(new CommandModule());
         var settings = new CommandHandlingSettings(resolver);
         var middleware = CommandHandlingMiddleware.HandleCommands(settings);
-        
+
         Action<IAppBuilder> startup = (app) => app.Use(middleware);
-        
+
         using(WebApp.Start("http://localhost:8080", startup))
         {
             Console.WriteLine("Press any key to exit");
