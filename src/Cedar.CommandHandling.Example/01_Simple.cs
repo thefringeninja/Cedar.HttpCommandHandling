@@ -75,8 +75,8 @@ namespace Cedar.CommandHandling.Example.Simple
                     app.Use(commandHandlingMiddleware);
                 }))
             {
-                Console.ReadKey();
                 Console.WriteLine("Press any key");
+                Console.ReadKey();
             }
         }
 
@@ -84,12 +84,13 @@ namespace Cedar.CommandHandling.Example.Simple
         {
             public Task BarAsync()
             {
-                throw new NotImplementedException();
+                // Do something async
+                return Task.FromResult(0);
             }
 
             public void Bar()
             {
-                throw new NotImplementedException();
+                // Do something
             }
         }
     }
