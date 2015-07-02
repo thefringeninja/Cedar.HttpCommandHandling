@@ -75,6 +75,7 @@ namespace Cedar.CommandHandling.Example.Simple
                     app.Use(commandHandlingMiddleware);
                 }))
             {
+                Console.ReadKey();
                 Console.WriteLine("Press any key");
             }
         }
