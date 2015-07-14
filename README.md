@@ -51,4 +51,4 @@ using(var client = new HttpClient(){ BaseAddress = new Uri("http://localhost:808
 }
 ```
 
-See the [examples](https://github.com/damianh/Cedar.HttpCommandHandling/tree/master/src/Cedar.HttpCommandHandling.Example) for more advanced scenarios.
+See the [examples](https://github.com/damianh/Cedar.HttpCommandHandling/tree/master/src/Cedar.CommandHandling.Example) for more advanced scenarios.
