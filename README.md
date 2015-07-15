@@ -1,5 +1,7 @@
 # Cedar HttpCommandHandling
-[![NuGet Status](http://img.shields.io/nuget/v/Cedar.HttpCommandHandling.svg?style=flat)](https://www.nuget.org/packages/Cedar.HttpCommandHandling/) [![NuGet Status](http://img.shields.io/nuget/v/Cedar.HttpCommandHandling.Client.svg?style=flat)](https://www.nuget.org/packages/Cedar.HttpCommandHandling.Client/)
+[![NuGet Status](http://img.shields.io/nuget/v/Cedar.CommandHandling.svg?style=flat)](https://www.nuget.org/packages/Cedar.CommandHandling/)
+[![NuGet Status](http://img.shields.io/nuget/v/Cedar.CommandHandling.Http.svg?style=flat)](https://www.nuget.org/packages/Cedar.CommandHandling.Http/) 
+[![NuGet Status](http://img.shields.io/nuget/v/Cedar.CommandHandling.Http.Client.svg?style=flat)](https://www.nuget.org/packages/Cedar.CommandHandling.Http.Client/)
 
 Owin Middleware for handling commands, typically used in CQRS applications. In this library, the philosophy is that commands are treated as resources in their own right and are PUT (i.e. `PUT http://example.com/commands/c9e714c8-c9c1-433b-bcc6-de971b384a03`) to encourage idempotent handling.
 
