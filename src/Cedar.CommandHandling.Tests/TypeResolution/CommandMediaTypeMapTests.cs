@@ -2,7 +2,7 @@
 {
     using System;
     using Cedar.CommandHandling.Http.TypeResolution;
-    using FluentAssertions;
+    using Shouldly;
     using Xunit;
 
     public class CommandMediaTypeMapTests
@@ -20,8 +20,7 @@
             _sut.Add("command", typeof(Command));
 
             _sut.GetCommandType("application/vnd.command+json")
-                .Should()
-                .Be<Command>();
+                .ShouldBe(typeof(Command));
         }
 
         [Fact]
@@ -30,8 +29,7 @@
             _sut.Add("command", typeof(Command));
 
             _sut.GetMediaType(typeof(Command))
-                .Should()
-                .Be("application/vnd.command+json");
+                .ShouldBe("application/vnd.command+json");
         }
 
         [Fact]
@@ -40,8 +38,7 @@
             _sut.Add("command", 2, typeof(Command_v2));
 
             _sut.GetCommandType("application/vnd.command.v2+json")
-                .Should()
-                .Be<Command_v2>();
+                .ShouldBe(typeof(Command_v2));
         }
 
         [Fact]
@@ -50,8 +47,7 @@
             _sut.Add("command", 2, typeof(Command_v2));
 
             _sut.GetMediaType(typeof(Command_v2))
-                .Should()
-                .Be("application/vnd.command.v2+json");
+                .ShouldBe("application/vnd.command.v2+json");
         }
 
         [Fact]
@@ -61,7 +57,7 @@
 
             Action act = () => _sut.Add("commandX", 2, typeof(Command_v2));
 
-            act.ShouldThrowExactly<ArgumentException>();
+            act.ShouldThrow<ArgumentException>();
         }
 
         [Fact]
@@ -71,7 +67,7 @@
 
             Action act = () => _sut.Add("command", 2, typeof(Command));
 
-            act.ShouldThrowExactly<ArgumentException>();
+            act.ShouldThrow<ArgumentException>();
         }
     }
 

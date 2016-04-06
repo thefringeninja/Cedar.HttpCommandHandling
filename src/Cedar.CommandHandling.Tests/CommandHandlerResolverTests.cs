@@ -2,7 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
-    using FluentAssertions;
+    using Shouldly;
     using Xunit;
 
     public class CommandHandlerResolverTests
@@ -15,7 +15,7 @@
 
             Handler<CommandMessage<Command>> handler = resolver.Resolve<Command>();
 
-            handler.Should().NotBeNull();
+            handler.ShouldNotBeNull();
         }
 
 
@@ -27,7 +27,7 @@
 
             await resolver.Dispatch(Guid.NewGuid(), new Command());
 
-            module.Counter.Should().Be(1);
+            module.Counter.ShouldBe(1);
         }
 
         private class TestCommandHandlerModule : CommandHandlerModule

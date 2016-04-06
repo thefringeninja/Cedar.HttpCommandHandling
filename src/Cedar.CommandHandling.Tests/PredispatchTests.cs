@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using Cedar.CommandHandling.Http;
     using Cedar.CommandHandling.Http.TypeResolution;
-    using FluentAssertions;
+    using Shouldly;
     using Xunit;
 
     public class PredispatchTests
@@ -47,7 +47,7 @@
                     request.Headers.Add(correlationIdKey, "cor-1");
                 });
 
-                correlationId.Should().Be("cor-1");
+                correlationId.ShouldBe("cor-1");
             }
         }
     }

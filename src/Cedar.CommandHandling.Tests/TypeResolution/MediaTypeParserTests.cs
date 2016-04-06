@@ -1,7 +1,7 @@
 ﻿namespace Cedar.CommandHandling.TypeResolution
 {
     using Cedar.CommandHandling.Http.TypeResolution;
-    using FluentAssertions;
+    using Shouldly;
     using Xunit;
 
     public class MediaTypeParserTests
@@ -11,9 +11,9 @@
         {
             var parsedMediaType = MediaTypeParsers.MediaTypeWithDotVersion("application/vnd.command.v2+json");
 
-            parsedMediaType.CommandName.Should().Be("command");
-            parsedMediaType.Version.Should().Be(2);
-            parsedMediaType.SerializationType.Should().Be("json");
+            parsedMediaType.CommandName.ShouldBe("command");
+            parsedMediaType.Version.ShouldBe(2);
+            parsedMediaType.SerializationType.ShouldBe("json");
         }
 
         [Fact]
@@ -21,9 +21,9 @@
         {
             var parsedMediaType = MediaTypeParsers.MediaTypeWithMinusVersion("application/vnd.command-v2+json");
 
-            parsedMediaType.CommandName.Should().Be("command");
-            parsedMediaType.Version.Should().Be(2);
-            parsedMediaType.SerializationType.Should().Be("json");
+            parsedMediaType.CommandName.ShouldBe("command");
+            parsedMediaType.Version.ShouldBe(2);
+            parsedMediaType.SerializationType.ShouldBe("json");
         }
 
         [Fact]
@@ -31,9 +31,9 @@
         {
             var parsedMediaType = MediaTypeParsers.MediaTypeWithQualifierVersion("application/vnd.command+json;v=2");
 
-            parsedMediaType.CommandName.Should().Be("command");
-            parsedMediaType.Version.Should().Be(2);
-            parsedMediaType.SerializationType.Should().Be("json");
+            parsedMediaType.CommandName.ShouldBe("command");
+            parsedMediaType.Version.ShouldBe(2);
+            parsedMediaType.SerializationType.ShouldBe("json");
         }
 
         [Fact]
@@ -41,9 +41,9 @@
         {
             var parsedMediaType = MediaTypeParsers.MediaTypeWithoutVersion("application/vnd.command+json");
 
-            parsedMediaType.CommandName.Should().Be("command");
-            parsedMediaType.Version.Should().Be(null);
-            parsedMediaType.SerializationType.Should().Be("json");
+            parsedMediaType.CommandName.ShouldBe("command");
+            parsedMediaType.Version.ShouldBe(null);
+            parsedMediaType.SerializationType.ShouldBe("json");
         }
     }
 }

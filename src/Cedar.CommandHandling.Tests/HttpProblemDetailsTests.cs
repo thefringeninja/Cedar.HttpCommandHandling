@@ -3,7 +3,7 @@
     using System;
     using System.Net;
     using Cedar.CommandHandling.Http;
-    using FluentAssertions;
+    using Shouldly;
     using Xunit;
 
     public class HttpProblemDetailsTests
@@ -13,7 +13,7 @@
         {
             var sut = new HttpProblemDetails { Status = (int)HttpStatusCode.BadRequest };
 
-            sut.Status.Should().Be((int)HttpStatusCode.BadRequest);
+            sut.Status.ShouldBe((int)HttpStatusCode.BadRequest);
         }
 
         [Fact]

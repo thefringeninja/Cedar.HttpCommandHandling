@@ -5,7 +5,7 @@
     using Cedar.CommandHandling.Http;
     using Cedar.CommandHandling.Http.TypeResolution;
     using FakeItEasy;
-    using FluentAssertions;
+    using Shouldly;
     using Xunit;
 
     public class CommandHandlingSettingsTests
@@ -23,8 +23,8 @@
                 }
             };
 
-            act.ShouldThrowExactly<HttpProblemDetailsException<HttpProblemDetails>>()
-                .And.ProblemDetails.Status.Should().Be(400);
+            var exception = act.ShouldThrow<HttpProblemDetailsException<HttpProblemDetails>>();
+            exception.ProblemDetails.Status.ShouldBe(400);
         }
 
         [Fact]
@@ -43,7 +43,7 @@
                 }
             };
 
-            act.ShouldThrowExactly<HttpProblemDetailsException<HttpProblemDetails>>();
+            act.ShouldThrow<HttpProblemDetailsException<HttpProblemDetails>>();
         }
 
         [Fact]
@@ -68,7 +68,7 @@
                 thrown = ex;
             }
 
-            thrown.Should().Be(expected);
+            thrown.ShouldBe(expected);
         }
     }
 }

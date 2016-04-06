@@ -2,18 +2,17 @@
 {
     using System;
     using System.Threading.Tasks;
-    using FluentAssertions;
+    using Shouldly;
     using Xunit;
 
     public class TaskExtensionsTests
     {
         [Fact]
-        public void Should_timeout()
+        public async Task Should_timeout()
         {
             Func<Task> act = () => Task.Delay(10000).WithTimeout(TimeSpan.FromMilliseconds(1));
 
-            act.ShouldThrow<TimeoutException>();
+            await act.ShouldThrowAsync<TimeoutException>();
         }
     }
-
 }

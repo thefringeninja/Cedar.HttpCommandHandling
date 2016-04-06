@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using FluentAssertions;
+    using Shouldly;
     using Xunit;
 
     public class CommandHandlerModuleTests
@@ -28,8 +28,8 @@
 
             var commandTypes = module.CommandTypes.ToList();
 
-            commandTypes.Should().HaveCount(1);
-            commandTypes.Single().Should().Be(typeof(Command));
+            commandTypes.Count.ShouldBe(1);
+            commandTypes.Single().ShouldBe(typeof(Command));
         }
     }
 }

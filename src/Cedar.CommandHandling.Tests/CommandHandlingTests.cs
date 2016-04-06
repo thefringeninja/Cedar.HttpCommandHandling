@@ -7,7 +7,7 @@
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using Cedar.CommandHandling.Http;
-    using FluentAssertions;
+    using Shouldly;
     using Xunit;
 
     public class CommandHandlingTests : IClassFixture<CommandHandlingFixture>
@@ -40,10 +40,10 @@
                 var receivedCommand = _fixture.ReceivedCommands.Last();
                 var commandMessage = (CommandMessage<Command>)receivedCommand;
 
-                commandMessage.Command.Should().BeOfType<Command>();
-                commandMessage.Command.Should().NotBeNull();
-                commandMessage.CommandId.Should().Be(commandId);
-                commandMessage.GetUser().Should().NotBeNull();
+                commandMessage.Command.ShouldBeOfType<Command>();
+                commandMessage.Command.ShouldNotBeNull();
+                commandMessage.CommandId.ShouldBe(commandId);
+                commandMessage.GetUser().ShouldNotBeNull();
             }
         }
 
@@ -71,13 +71,13 @@
                     Guid.NewGuid(),
                     _fixture.CommandMediaTypeMap);
 
-                var exception = act.ShouldThrow<HttpProblemDetailsException<HttpProblemDetails>>().And;
+                var exception = act.ShouldThrow<HttpProblemDetailsException<HttpProblemDetails>>();
 
-                exception.ProblemDetails.Should().NotBeNull();
-                exception.ProblemDetails.Instance.Should().NotBeNull();
-                exception.ProblemDetails.Detail.Should().NotBeNull();
-                exception.ProblemDetails.Title.Should().NotBeNull();
-                exception.ProblemDetails.Type.Should().NotBeNull();
+                exception.ProblemDetails.ShouldNotBeNull();
+                exception.ProblemDetails.Instance.ShouldNotBeNull();
+                exception.ProblemDetails.Detail.ShouldNotBeNull();
+                exception.ProblemDetails.Title.ShouldNotBeNull();
+                exception.ProblemDetails.Type.ShouldNotBeNull();
             }
         }
 
@@ -91,13 +91,13 @@
                     Guid.NewGuid(),
                     _fixture.CommandMediaTypeMap);
 
-                var exception = act.ShouldThrow<HttpProblemDetailsException<HttpProblemDetails>>().And;
+                var exception = act.ShouldThrow<HttpProblemDetailsException<HttpProblemDetails>>();
 
-                exception.ProblemDetails.Should().NotBeNull();
-                exception.ProblemDetails.Instance.Should().BeNull();
-                exception.ProblemDetails.Detail.Should().NotBeNull();
-                exception.ProblemDetails.Title.Should().NotBeNull();
-                exception.ProblemDetails.Type.Should().NotBeNull();
+                exception.ProblemDetails.ShouldNotBeNull();
+                exception.ProblemDetails.Instance.ShouldBeNull();
+                exception.ProblemDetails.Detail.ShouldNotBeNull();
+                exception.ProblemDetails.Title.ShouldNotBeNull();
+                exception.ProblemDetails.Type.ShouldNotBeNull();
             }
         }
 
@@ -111,14 +111,14 @@
                     Guid.NewGuid(), 
                     _fixture.CommandMediaTypeMap);
 
-                var exception = act.ShouldThrow<CustomProblemDetailsException>().And;
+                var exception = act.ShouldThrow<CustomProblemDetailsException>();
 
-                exception.ProblemDetails.Should().NotBeNull();
-                exception.ProblemDetails.Instance.Should().NotBeNull();
-                exception.ProblemDetails.Detail.Should().NotBeNull();
-                exception.ProblemDetails.Title.Should().NotBeNull();
-                exception.ProblemDetails.Type.Should().NotBeNull();
-                exception.ProblemDetails.Name.Should().NotBeNull();
+                exception.ProblemDetails.ShouldNotBeNull();
+                exception.ProblemDetails.Instance.ShouldNotBeNull();
+                exception.ProblemDetails.Detail.ShouldNotBeNull();
+                exception.ProblemDetails.Title.ShouldNotBeNull();
+                exception.ProblemDetails.Type.ShouldNotBeNull();
+                exception.ProblemDetails.Name.ShouldNotBeNull();
             }
         }
 
@@ -153,7 +153,7 @@
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
                 var response = await client.SendAsync(request);
 
-                response.StatusCode.Should().Be(HttpStatusCode.UnsupportedMediaType);
+                response.StatusCode.ShouldBe(HttpStatusCode.UnsupportedMediaType);
             }
         }
     }
