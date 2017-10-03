@@ -17,14 +17,8 @@
             _problemDetails = problemDetails;
         }
 
-        public T ProblemDetails
-        {
-            get { return _problemDetails; }
-        }
+        public T ProblemDetails => _problemDetails;
 
-        HttpProblemDetails IHttpProblemDetailException.ProblemDetails
-        {
-            get { return _problemDetails; }
-        }
+        HttpProblemDetails IHttpProblemDetailException.ProblemDetails => _problemDetails;
     }
 }

@@ -104,11 +104,11 @@
         [Fact]
         public void When_put_command_whose_handler_throws_custom_problem_details_exception_then_should_throw()
         {
-            using (var client = _fixture.CreateHttpClient())
+            using(var client = _fixture.CreateHttpClient())
             {
                 Func<Task> act = () => client.PutCommand(
                     new CommandThatThrowsCustomProblemDetailsException(),
-                    Guid.NewGuid(), 
+                    Guid.NewGuid(),
                     _fixture.CommandMediaTypeMap);
 
                 var exception = act.ShouldThrow<CustomProblemDetailsException>();

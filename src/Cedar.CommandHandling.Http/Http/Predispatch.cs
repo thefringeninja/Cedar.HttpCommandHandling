@@ -4,5 +4,5 @@ namespace Cedar.CommandHandling.Http
 
     public delegate void Predispatch(
         IDictionary<string, object> metadata,
-        IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders);
+        IEnumerable<KeyValuePair<string, string[]>> requestHeaders);
 }

@@ -2,16 +2,18 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Net.Http.Headers;
-    using System.Web.Http;
-    using System.Web.Http.Dependencies;
-    using System.Web.Http.Dispatcher;
-    using Cedar.CommandHandling.TinyIoC;
+    using System.IO;
+    using System.Net;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Cedar.CommandHandling.Http.Logging;
+    using Cedar.CommandHandling.Http.TypeResolution;
     using EnsureThat;
     using Microsoft.IO;
+    using Microsoft.Owin;
     using Microsoft.Owin.Builder;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
     using Newtonsoft.Json.Serialization;
     using Owin;
     using MidFunc = System.Func<
@@ -23,6 +25,14 @@
     /// </summary>
     public static class CommandHandlingMiddleware
     {
+        private static readonly RecyclableMemoryStreamManager s_StreamManager = new RecyclableMemoryStreamManager();
+        private static readonly ILog s_logger = LogProvider.GetLogger(typeof(CommandHandlingMiddleware));
+        private static readonly JsonSerializer s_Serializer = JsonSerializer.Create(new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.None,
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        });
+
         /// <summary>
         ///     Creats a command handling middlware.
         /// </summary>
@@ -32,80 +42,125 @@
         {
             Ensure.That(settings, "settings").IsNotNull();
 
+            var builder = new AppBuilder()
+                .MapWhen(IsPuttingCommand, inner => inner.Use(HandleCommand(settings)));
+
             return next =>
             {
-                var webApiConfig = ConfigureWebApi(settings);
-                var appBuilder = new AppBuilder();
-                appBuilder
-                    .UseWebApi(webApiConfig)
-                    .Run(ctx => next(ctx.Environment));
-                return appBuilder.Build();
+                builder.Run(ctx => next(ctx.Environment));
+                return builder.Build();
             };
         }
 
-        private static HttpConfiguration ConfigureWebApi(CommandHandlingSettings settings)
+        private static bool IsPuttingCommand(IOwinContext context)
+            => context.Request.Method == "PUT" && TryParseCommandId(context.Request, out var _);
+
+        private static bool TryParseCommandId(IOwinRequest request, out Guid value)
+            => Guid.TryParse(request.Path.Value?.Remove(0, 1), out value);
+
+        private static MidFunc HandleCommand(CommandHandlingSettings settings) => next => async env =>
         {
-            var container = new TinyIoCContainer();
-            container.Register(settings);
-            container.Register(new RecyclableMemoryStreamManager());
+            var context = new OwinContext(env);
 
-            var config = new HttpConfiguration
+            var onPredispatch = settings.OnPredispatch ?? DefaultOnPredispatch;
+
+            TryParseCommandId(context.Request, out var commandId);
+
+            try
             {
-                DependencyResolver = new TinyIoCDependencyResolver(container)
-            };
-            config.Services.Replace(typeof(IHttpControllerTypeResolver), new CommandHandlingHttpControllerTypeResolver());
-            config.Filters.Add(new HttpProblemDetailsExceptionFilterAttribute(settings.MapProblemDetailsFromException));
-            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Never;
-            config.MapHttpAttributeRoutes();
-            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/problem+json"));
-            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
-                new CamelCasePropertyNamesContractResolver();
-            config.Formatters.JsonFormatter.SerializerSettings.TypeNameHandling = TypeNameHandling.None;
+                var commandType = ResolveCommandType(context.Request.ContentType, settings.ResolveCommandType);
 
-            return config;
-        }
+                var command = await DeserializeCommand(context.Request.Body, commandType, settings.DeserializeCommand);
 
-        private class TinyIoCDependencyResolver : IDependencyResolver
-        {
-            private readonly TinyIoCContainer _container;
+                var metadata = new Dictionary<string, object>
+                {
+                    [CommandMessageExtensions.UserKey] = context.Request.User as ClaimsPrincipal
+                                                         ?? new ClaimsPrincipal(new ClaimsIdentity())
+                };
 
-            public TinyIoCDependencyResolver(TinyIoCContainer container)
+                try
+                {
+                    onPredispatch(metadata, context.Request.Headers);
+                }
+                catch(Exception ex)
+                {
+                    s_logger.ErrorException("Exception occured invoking the Predispatch hook", ex);
+                }
+
+                await settings.HandlerResolver.Dispatch(commandId, command, metadata, context.Request.CallCancelled);
+            }
+            catch(Exception ex)
             {
-                _container = container;
+                var httpProblemDetailException = ex as IHttpProblemDetailException;
+
+                var problemDetails = httpProblemDetailException?.ProblemDetails
+                                     ?? settings.MapProblemDetailsFromException(ex);
+
+                if(problemDetails == null)
+                {
+                    context.Response.StatusCode = 500;
+                    context.Response.ReasonPhrase = "Internal Server Error";
+                    return;
+                }
+
+                await HandleHttpProblemDetails(context, problemDetails, httpProblemDetailException);
             }
 
-            public void Dispose()
+            void DefaultOnPredispatch(
+                IDictionary<string, object> _,
+                IEnumerable<KeyValuePair<string, string[]>> __)
             { }
+        };
 
-            public object GetService(Type serviceType)
+        private static Type ResolveCommandType(string mediaType, ResolveCommandType resolveCommandType)
+        {
+            try
             {
-                return _container.CanResolve(serviceType) 
-                    ? _container.Resolve(serviceType) 
-                    : null;
+                return resolveCommandType(mediaType);
             }
-
-            public IEnumerable<object> GetServices(Type serviceType)
+            catch(Exception ex)
             {
-                return _container.CanResolve(serviceType) 
-                    ? _container.ResolveAll(serviceType, true) 
-                    : Enumerable.Empty<object>();
-            }
-
-            public IDependencyScope BeginScope()
-            {
-                return this;
+                var problemDetails = new HttpProblemDetails
+                {
+                    Status = (int) HttpStatusCode.UnsupportedMediaType,
+                    Detail = ex.Message
+                };
+                throw new HttpProblemDetailsException<HttpProblemDetails>(problemDetails);
             }
         }
 
-        private class CommandHandlingHttpControllerTypeResolver : IHttpControllerTypeResolver
+        private static async Task<object> DeserializeCommand(
+            Stream body,
+            Type commandType,
+            DeserializeCommand deserializeCommand)
         {
-            // We want to be very explicit which controllers we want to use.
-            // Also we want our controllers internal.
-
-            public ICollection<Type> GetControllerTypes(IAssembliesResolver _)
+            var memoryStream = s_StreamManager.GetStream(); // StreamReader below will do the dispose
+            await body.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+            using(var reader = new StreamReader(memoryStream))
             {
-                return new[] { typeof(CommandHandlerController) };
+                return deserializeCommand(reader, commandType);
             }
+        }
+
+        private static async Task HandleHttpProblemDetails(IOwinContext context, HttpProblemDetails problemDetails, IHttpProblemDetailException ex = null)
+        {
+            var problemDetailsType = problemDetails.GetType();
+            
+            var exceptionTypeName = ex?.GetType().AssemblyQualifiedName
+                ?? typeof(HttpProblemDetailsException<>).MakeGenericType(problemDetailsType).AssemblyQualifiedName;
+
+            // .NET Client will use these custom headers to deserialize and activate the correct types
+            context.Response.Headers.Append(CommandClient.HttpProblemDetailsExceptionClrType, exceptionTypeName);
+            context.Response.Headers.Append(CommandClient.HttpProblemDetailsClrType, problemDetailsType.AssemblyQualifiedName);
+            
+            context.Response.StatusCode = problemDetails.Status;
+            context.Response.ContentType = HttpProblemDetails.MediaTypeHeaderValue.ToString();
+            
+            var writer = new JsonTextWriter(new StreamWriter(context.Response.Body));
+            
+            await JObject.FromObject(problemDetails, s_Serializer).WriteToAsync(writer, context.Request.CallCancelled);
+            await writer.FlushAsync(context.Request.CallCancelled);
         }
     }
 }
