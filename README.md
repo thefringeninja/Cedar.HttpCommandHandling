@@ -13,7 +13,9 @@ Owin Middleware for handling commands, typically used in CQRS applications. In t
 5. Supports IETF HTTP Problem Details for errors (json only). Problem details are extendable and exceptions are re-raised when using .NET client.
 6. Simple to test without any environmental dependencies.
 7. Commands can be invoked embedded, in-mem and in-proc allowing the same pipeline to be invoked remote or locally.
-8. No dependencies!
+8. ~No dependencies!~
+
+*Note*: It does not appear as if ilmerge / ilrepack are going to support netstandard / netcoreapp anytime soon, so the era of dependency free libraries is at an end. The recommendation going forward is to copy and paste what you need out of here into your own project.
 
 ### Getting started.
 
